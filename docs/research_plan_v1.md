@@ -77,5 +77,5 @@ Palm oil prices and land-use economics (paper 2). Health effects. Any statement 
 
 
 - 16 Oct 2026 — Robustness check 6 (VIIRS) not yet run ("if time allows"); results reported without it.
-- 16 Oct 2026 — Bootstrap: resamples in which any column is constant cannot be estimated and are skipped and counted (1 of 10,000 in one robustness variant). Rule added before results were read, after a solver warning.
+- 16 Oct 2026 — Bootstrap: resamples in which any column is constant cannot be estimated and are skipped and counted (1 of 10,000 in one robustness variant). Rule added after the first run, which had already printed results with a solver warning; the rerun with the rule changed no reported estimate or interval at 4 decimals.
 - 16 Oct 2026 — Added a Durbin–Watson residual diagnostic for H2/H3, not in the plan; reported as a diagnostic only, not used to change any test.
