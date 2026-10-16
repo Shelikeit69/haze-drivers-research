@@ -13,6 +13,9 @@ Separate from the AI4Climate entry `sg-haze-window`. Nothing here feeds that pro
 | `src/analyse.py` | Round 1: builds the SOI, seasonal rain and Singapore haze metrics; runs the correlations. |
 | `src/analyse_r2.py` | Round 2: official ONI cross-check and the Indian Ocean Dipole. Reads round-1 results, so run after `analyse.py`. |
 | `src/analyse_r3.py` | Round 3: re-test with GPCP rainfall (independent of ERA5). Run after `analyse_r2.py`. Needs `netCDF4`. |
+| `src/fetch_firms.py` | Downloads NASA FIRMS MODIS fire detections. Reads the key from `FIRMS_MAP_KEY`; the key is never stored. |
+| `src/analyse_r4.py` | Round 4: drought → fires → Singapore PM2.5. Run after `analyse_r3.py`. |
+| `src/plot_r4.py` | Draws `results/fires_r4.png`. |
 | `src/plot.py` | Draws `results/enso_haze.png`. |
 | `results/` | Outputs of the current code. Regenerate rather than edit. |
 | `docs/` | Findings notes, one per analysis round. |
@@ -23,6 +26,8 @@ Separate from the AI4Climate entry `sg-haze-window`. Nothing here feeds that pro
 python src/analyse.py data/raw results
 python src/analyse_r2.py data/raw results
 python src/analyse_r3.py data/raw results
+python src/analyse_r4.py data/raw results
+python src/plot_r4.py results
 python src/plot.py results
 ```
 
@@ -36,6 +41,7 @@ Needs Python 3 with pandas, numpy, scipy, matplotlib, netCDF4. Re-downloading (`
 | ONI (CPC, ERSST v6, 3-month running mean; file says "as of 09/7/2026") | NOAA PSL `psl.noaa.gov/data/correlation/oni.data`, downloaded by Toni, saved as `noaa_psl_oni.data` | Jan 1950 to Aug 2026 (centre month) | US government data |
 | Dipole Mode Index (HadISST1.1; created 25 Jul 2026, recent months preliminary) | NOAA PSL `psl.noaa.gov/gcos_wgsp/Timeseries/Data/dmi.had.long.data`, downloaded by Toni, saved as `noaa_psl_dmi_had_long.data` | Jan 1870 to May 2026 | NOAA PSL; HadISST is Met Office data, credit required |
 | GPCP v2.3 monthly precipitation, 2.5° (satellite + gauge; Nov 2021 onward interim) | NOAA PSL `downloads.psl.noaa.gov/Datasets/gpcp/precip.mon.mean.nc`, downloaded by Toni, saved as `noaa_psl_gpcp_v2.3_precip.mon.mean.nc` | Jan 1979 to Jun 2026 | NOAA PSL; cite Adler et al. 2003 (citation in file) |
+| MODIS active-fire detections (MODIS_SP 2001–2025; MODIS_NRT 2026) | NASA FIRMS area API, box 100–116.5°E, 5°S–2.3°N, downloaded 16 Oct 2026 with Toni's MAP_KEY | 1 Aug–31 Oct 2001–2025; 1 Aug–15 Oct 2026 | NASA open data; cite FIRMS |
 | PSI and 24-h PM2.5 by region, hourly | NEA via data.gov.sg real-time API (`/v2/real-time/api/psi?date=`) | 1 Aug–31 Oct, 2016–2025; 1 Aug–15 Oct 2026 | Singapore Open Data Licence; credit source, do not imply official status |
 
 ERA5 points (requested lat, lon; Open-Meteo snaps to the nearest grid cell, actual cell recorded in each JSON):

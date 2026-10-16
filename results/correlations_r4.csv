@@ -1,0 +1,12 @@
+test,x,y,n,years,pearson_r,pearson_p,spearman_rho,spearman_p
+"1: GPCP rain -> log10 fires, Aug-Oct",gpcp_sumatra_aso,log_fires_sumatra,25,2001-2025,-0.702,0.0001,-0.725,0.0
+"1: ONI -> log10 fires, Aug-Oct",oni_aso,log_fires_sumatra,25,2001-2025,0.577,0.0025,0.625,0.0008
+1: ONI Jun-Aug (lead) -> log10 fires,oni_jja,log_fires_sumatra,25,2001-2025,0.509,0.0093,0.539,0.0054
+"1: GPCP rain -> log10 fires, Aug-Oct",gpcp_kalimantan_aso,log_fires_kalimantan,25,2001-2025,-0.908,0.0,-0.92,0.0
+"1: ONI -> log10 fires, Aug-Oct",oni_aso,log_fires_kalimantan,25,2001-2025,0.74,0.0,0.805,0.0
+1: ONI Jun-Aug (lead) -> log10 fires,oni_jja,log_fires_kalimantan,25,2001-2025,0.676,0.0002,0.702,0.0001
+"2: log10 fires -> Singapore PM2.5, Aug-Oct (2016-2025)",log_fires_sumatra,sg_pm25_mean,10,2016-2025,0.915,0.0002,0.939,0.0001
+"2: log10 fires -> Singapore PM2.5, Aug-Oct (2016-2025)",log_fires_kalimantan,sg_pm25_mean,10,2016-2025,0.884,0.0007,0.879,0.0008
+"2: log10 fires -> Singapore PM2.5, Aug-Oct (2016-2025)",log_fires_both,sg_pm25_mean,10,2016-2025,0.901,0.0004,0.879,0.0008
+"2: log10 fires -> Singapore PM2.5, 1 Aug-10 Oct incl. 2026",log_fires_w_sumatra,w_sg_pm25_mean,11,2016-2026,0.865,0.0006,0.891,0.0002
+"2: log10 fires -> Singapore PM2.5, 1 Aug-10 Oct incl. 2026",log_fires_w_kalimantan,w_sg_pm25_mean,11,2016-2026,0.891,0.0002,0.891,0.0002
