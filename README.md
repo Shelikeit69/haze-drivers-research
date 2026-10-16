@@ -4,7 +4,7 @@
 
 **Since 2016 Indonesia burns far less for the same amount of rain, but an El Niño summer still means a drier fire season, more fires and worse haze in Singapore.**
 
-Read the short paper: [docs/paper_climate_fire_singapore_haze_2026-10-16.pdf](docs/paper_climate_fire_singapore_haze_2026-10-16.pdf) (12 pages, 6 figures).
+The short paper is here: [docs/paper_climate_fire_singapore_haze_2026-10-16.pdf](docs/paper_climate_fire_singapore_haze_2026-10-16.pdf) (12 pages, 6 figures).
 
 ## Main numbers
 
@@ -20,31 +20,31 @@ All five planned tests hold after Holm correction for multiple testing.
 
 ## Limits
 
-- The June to August indices are published in September. They warn ahead of September and October, which held 67% of August to October fire detections in 2001 to 2025, but not before the season starts.
-- The Singapore link rests on ten seasons and does not include 2015.
-- The tests were run on data that had already been explored, so this is not a pre-registered study.
+- The June to August indices come out in September. That is before September and October, which held 67% of August to October fire detections in 2001 to 2025, but it is after the season has started.
+- The Singapore link rests on ten seasons and leaves out 2015.
+- I ran the tests on data I had already explored, so this is not a pre-registered study.
 - These are yearly correlations. They do not prove cause, and nothing here forecasts 2027.
-- This is a personal project. It has not been peer reviewed.
+- This is a personal project and has not been peer reviewed.
 
-Separate from the AI4Climate entry `sg-haze-window`. Nothing here feeds that product.
+It is separate from my AI4Climate entry `sg-haze-window`, and nothing here feeds that product.
 
 ## Layout
 
 | Path | What it is |
 |---|---|
-| `data/raw/` | Raw API responses, saved unchanged. **Read-only**: never edit; all cleaning happens in code. `SHA256SUMS.txt` lets you check nothing changed (`cd data/raw && sha256sum -c SHA256SUMS.txt`). |
-| `src/fetch.py` | Downloads the raw data (skips files that already exist). |
-| `src/analyse.py` | Round 1: builds the SOI, seasonal rain and Singapore haze metrics; runs the correlations. |
-| `src/analyse_r2.py` | Round 2: official ONI cross-check and the Indian Ocean Dipole. Reads round-1 results, so run after `analyse.py`. |
-| `src/analyse_r3.py` | Round 3: re-test with GPCP rainfall (independent of ERA5). Run after `analyse_r2.py`. Needs `netCDF4`. |
-| `src/fetch_firms.py` | Downloads NASA FIRMS MODIS fire detections. Reads the key from `FIRMS_MAP_KEY`; the key is never stored. |
-| `src/analyse_r4.py` | Round 4: drought → fires → Singapore PM2.5. Run after `analyse_r3.py`. |
+| `data/raw/` | Raw API responses, saved unchanged. Treat them as read-only: all cleaning happens in code. `SHA256SUMS.txt` lets you check that nothing changed (`cd data/raw && sha256sum -c SHA256SUMS.txt`). |
+| `src/fetch.py` | Downloads the raw data and skips files that already exist. |
+| `src/analyse.py` | Round 1. Builds the SOI, seasonal rain and Singapore haze metrics, then runs the correlations. |
+| `src/analyse_r2.py` | Round 2. Cross-checks with the official ONI and adds the Indian Ocean Dipole. Reads round 1 results, so run it after `analyse.py`. |
+| `src/analyse_r3.py` | Round 3. Repeats the tests with GPCP rain, which does not depend on ERA5. Run after `analyse_r2.py`. Needs `netCDF4`. |
+| `src/fetch_firms.py` | Downloads NASA FIRMS MODIS fire detections. It reads the key from `FIRMS_MAP_KEY` and never stores it. |
+| `src/analyse_r4.py` | Round 4. Drought, fires and Singapore PM2.5. Run after `analyse_r3.py`. |
 | `src/plot_r4.py` | Draws `results/fires_r4.png`. |
-| `src/confirmatory.py` | Primary tests and robustness checks under `docs/research_plan_v1.md`. Run after `analyse_r4.py`. Needs `statsmodels`. |
-| `src/fire_months.py` | Share of Aug–Oct fire detections by month (used for the timing statement in the paper). |
+| `src/confirmatory.py` | Primary tests and robustness checks from `docs/research_plan_v1.md`. Run after `analyse_r4.py`. Needs `statsmodels`. |
+| `src/fire_months.py` | Monthly share of August to October fire detections. The paper's timing statement comes from this. |
 | `src/plot.py` | Draws `results/enso_haze.png`. |
-| `results/` | Outputs of the current code. Regenerate rather than edit. |
-| `docs/` | The paper (PDF), the frozen research plan, the literature review and one findings note per analysis round. |
+| `results/` | Output of the current code. Rerun the code instead of editing these files. |
+| `docs/` | The paper (PDF), the frozen research plan, the literature review and one note per analysis round. |
 | `LICENSE` | MIT licence for the code and text written here. Raw data keep their own licences (see below). |
 
 ## Reproduce
@@ -60,31 +60,31 @@ python src/fire_months.py data/raw results
 python src/plot.py results
 ```
 
-Needs Python 3 with pandas, numpy, scipy, matplotlib, netCDF4, statsmodels. Re-downloading (`python src/fetch.py data/raw`) is only needed to extend the data; it will not overwrite existing files.
+You need Python 3 with pandas, numpy, scipy, matplotlib, netCDF4 and statsmodels. You only need to download again (`python src/fetch.py data/raw`) to add new data. Existing files are not overwritten.
 
 ## Licence and attribution
 
-Code, notes and the paper in this repo are released under the MIT licence (`LICENSE`), copyright Zhang Lin Si Cheng.
+The code, notes and paper in this repo are released under the MIT licence (`LICENSE`), copyright Zhang Lin Si Cheng.
 
-Files in `data/raw/` are copies of third-party data and are not covered by the MIT licence. Each keeps the terms in the table below. If you reuse them, credit the original source:
+Files in `data/raw/` are copies of third-party data. The MIT licence does not cover them; each keeps the terms in the table below. If you reuse them, credit the source:
 
 - Singapore PSI and PM2.5: contains information from the PSI dataset accessed on 16 Oct 2026 from data.gov.sg, made available under the Singapore Open Data Licence version 1.0.
-- ERA5 rain and pressure: weather data by Open-Meteo.com (CC BY 4.0), based on Copernicus Climate Change Service ERA5 reanalysis.
-- ONI, DMI and GPCP: NOAA Physical Sciences Laboratory. HadISST (behind the DMI) is Met Office data. Cite Adler et al. (2003) for GPCP.
+- ERA5 rain and pressure: weather data by Open-Meteo.com (CC BY 4.0), based on the Copernicus Climate Change Service ERA5 reanalysis.
+- ONI, DMI and GPCP: NOAA Physical Sciences Laboratory. HadISST, which the DMI is built on, is Met Office data. Cite Adler et al. (2003) for GPCP.
 - Fire detections: NASA FIRMS (MODIS standard product for 2001 to 2025, near-real-time product for 2026).
 
 ## Data sources (downloaded 16 Oct 2026)
 
 | Data | Source | Coverage in this repo | Licence |
 |---|---|---|---|
-| Daily mean sea-level pressure, daily precipitation (ERA5 reanalysis) | Open-Meteo Historical Weather API | 1950-01-01 to 2026-10-10, 8 points (below) | CC BY 4.0; free for non-commercial use |
-| ONI (CPC, ERSST v6, 3-month running mean; file says "as of 09/7/2026") | NOAA PSL `psl.noaa.gov/data/correlation/oni.data`, downloaded by Toni, saved as `noaa_psl_oni.data` | Jan 1950 to Aug 2026 (centre month) | US government data |
-| Dipole Mode Index (HadISST1.1; created 25 Jul 2026, recent months preliminary) | NOAA PSL `psl.noaa.gov/gcos_wgsp/Timeseries/Data/dmi.had.long.data`, downloaded by Toni, saved as `noaa_psl_dmi_had_long.data` | Jan 1870 to May 2026 | NOAA PSL; HadISST is Met Office data, credit required |
-| GPCP v2.3 monthly precipitation, 2.5° (satellite + gauge; Nov 2021 onward interim) | NOAA PSL `downloads.psl.noaa.gov/Datasets/gpcp/precip.mon.mean.nc`, downloaded by Toni, saved as `noaa_psl_gpcp_v2.3_precip.mon.mean.nc` | Jan 1979 to Jun 2026 | NOAA PSL; cite Adler et al. 2003 (citation in file) |
-| MODIS active-fire detections (MODIS_SP 2001–2025; MODIS_NRT 2026) | NASA FIRMS area API, box 100–116.5°E, 5°S–2.3°N, downloaded 16 Oct 2026 with Toni's MAP_KEY | 1 Aug–31 Oct 2001–2025; 1 Aug–15 Oct 2026 | NASA open data; cite FIRMS |
-| PSI and 24-h PM2.5 by region, hourly | NEA via data.gov.sg real-time API (`/v2/real-time/api/psi?date=`) | 1 Aug–31 Oct, 2016–2025; 1 Aug–15 Oct 2026 | Singapore Open Data Licence; credit source, do not imply official status |
+| Daily mean sea-level pressure and daily precipitation (ERA5 reanalysis) | Open-Meteo Historical Weather API | 1 Jan 1950 to 10 Oct 2026, 8 points (listed below) | CC BY 4.0; free for non-commercial use |
+| ONI (CPC, ERSST v6, 3-month running mean; the file says "as of 09/7/2026") | NOAA PSL `psl.noaa.gov/data/correlation/oni.data`, downloaded by Toni and saved as `noaa_psl_oni.data` | Jan 1950 to Aug 2026 (centre month) | US government data |
+| Dipole Mode Index (HadISST1.1; created 25 Jul 2026; recent months are preliminary) | NOAA PSL `psl.noaa.gov/gcos_wgsp/Timeseries/Data/dmi.had.long.data`, downloaded by Toni and saved as `noaa_psl_dmi_had_long.data` | Jan 1870 to May 2026 | NOAA PSL; HadISST is Met Office data and needs credit |
+| GPCP v2.3 monthly precipitation, 2.5° grid (satellite plus rain gauge; interim from Nov 2021) | NOAA PSL `downloads.psl.noaa.gov/Datasets/gpcp/precip.mon.mean.nc`, downloaded by Toni and saved as `noaa_psl_gpcp_v2.3_precip.mon.mean.nc` | Jan 1979 to Jun 2026 | NOAA PSL; cite Adler et al. 2003 (citation in the file) |
+| MODIS active-fire detections (MODIS_SP for 2001 to 2025, MODIS_NRT for 2026) | NASA FIRMS area API, box 100 to 116.5°E and 5°S to 2.3°N, downloaded 16 Oct 2026 with Toni's MAP_KEY | 1 Aug to 31 Oct in 2001 to 2025; 1 Aug to 15 Oct 2026 | NASA open data; cite FIRMS |
+| Hourly PSI and 24-hour PM2.5 by region | NEA via the data.gov.sg real-time API (`/v2/real-time/api/psi?date=`) | 1 Aug to 31 Oct in 2016 to 2025; 1 Aug to 15 Oct 2026 | Singapore Open Data Licence; credit the source and do not imply official status |
 
-ERA5 points (requested lat, lon; Open-Meteo snaps to the nearest grid cell, actual cell recorded in each JSON):
+ERA5 points, as requested latitude and longitude. Open-Meteo snaps each one to the nearest grid cell, and each JSON file records the cell it used.
 
 - SOI stations: Darwin (-12.46, 130.84), Tahiti (-17.53, -149.57)
 - Sumatra: Riau (0.50, 101.50), Jambi (-1.60, 103.60), South Sumatra (-3.00, 104.80)
@@ -92,14 +92,14 @@ ERA5 points (requested lat, lon; Open-Meteo snaps to the nearest grid cell, actu
 
 ## Method notes
 
-- **Headline pair from round 3 on: official ONI with GPCP rain.** Round 3 showed part of SOI's apparent advantage came from SOI and ERA5 rain sharing a source.
-- **Round 1 ENSO index = SOI computed here.** NOAA's site could not be reached from the work environment; the official ONI was added in round 2 as a cross-check. SOI uses the Troup formula on ERA5 monthly Tahiti minus Darwin pressure, 1981–2010 base. Negative = El Niño. It is not the official Bureau of Meteorology SOI series.
-- **Singapore metrics are rebuilt from the five regions** for every year, because the `national` field disappears from 2024. PSI = max over regions (NEA's national definition); PM2.5 = mean over the regions reporting that hour.
-- Seasonal rain = mean of the three points per island, Aug–Oct, mm/day. A season with any missing day is left blank.
+- From round 3 on, the main pair is the official ONI with GPCP rain. Round 3 showed that part of the SOI's apparent edge came from the SOI and ERA5 rain sharing a source.
+- Round 1 used an SOI computed here, because NOAA's site could not be reached from the work environment at the time. The official ONI came in at round 2 as a cross-check. The SOI uses the Troup formula on ERA5 monthly Tahiti minus Darwin pressure, with a 1981 to 2010 base. Negative values mean El Niño. It is not the Bureau of Meteorology's official SOI.
+- Singapore metrics are rebuilt from the five regions for every year, because the API drops the `national` field from 2024. PSI is the maximum over regions, which is how NEA defines the national value. PM2.5 is the mean over the regions reporting in that hour.
+- Seasonal rain is the mean of the three points on each island over August to October, in mm/day. A season with any missing day is left blank.
 
 ## Known data problems (kept, not filled)
 
-- NEA API has no data before 2016, so the 2015 haze is not in the Singapore series.
-- NEA returns "data not found" for 20 days: 2019-08-09, 08-15, 09-06, 09-10, 09-11, 09-14, 09-15, 09-21, 09-25, 09-26, 10-02, 10-17, 10-18; 2021-10-01 to 10-04, 10-25; 2023-10-08, 10-31. Several 2019 gaps fall on peak haze days, so 2019 haze is understated. Some other days have fewer than 24 hourly readings.
-- ERA5 values for recent months are preliminary and can be revised. ERA5 tropical rainfall is biased; the 4 mm/day threshold from Field et al. (TRMM-based) is shown for reference only.
-- 2026 rain is incomplete (to 10 Oct), so 2026 enters only the "same window" test (1 Aug–10 Oct).
+- The NEA API has no data before 2016, so the 2015 haze is missing from the Singapore series.
+- NEA returns "data not found" for 20 days: 2019-08-09, 08-15, 09-06, 09-10, 09-11, 09-14, 09-15, 09-21, 09-25, 09-26, 10-02, 10-17, 10-18; 2021-10-01 to 10-04, 10-25; 2023-10-08, 10-31. Several of the 2019 gaps fall on peak haze days, so 2019 haze is understated. Some other days have fewer than 24 hourly readings.
+- ERA5 values for recent months are preliminary and may be revised. ERA5 tropical rain is biased, so the 4 mm/day threshold from Field et al. (based on TRMM) is shown for reference only.
+- 2026 rain runs only to 10 Oct, so 2026 appears only in the same-window comparison (1 Aug to 10 Oct).

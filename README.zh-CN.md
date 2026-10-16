@@ -4,7 +4,7 @@
 
 **2016 年以来，同样的降雨下印尼烧得少多了；但厄尔尼诺年的夏天之后，火季照样更干、火更多，新加坡的雾霾也更重。**
 
-论文（英文，12 页，6 张图）：[docs/paper_climate_fire_singapore_haze_2026-10-16.pdf](docs/paper_climate_fire_singapore_haze_2026-10-16.pdf)
+论文在这里（英文，12 页，6 张图）：[docs/paper_climate_fire_singapore_haze_2026-10-16.pdf](docs/paper_climate_fire_singapore_haze_2026-10-16.pdf)
 
 ## 主要数字
 
@@ -20,19 +20,19 @@
 
 ## 局限
 
-- 6 至 8 月的指数要到 9 月才公布。它能在 9、10 月之前给出提示（2001 至 2025 年，8 至 10 月的火点有 67% 出现在 9、10 月），但做不到在火季开始前预警。
+- 6 至 8 月的指数要到 9 月才公布。这赶在 9、10 月之前（2001 至 2025 年，8 至 10 月的火点有 67% 出现在这两个月），但那时火季已经开始了。
 - 新加坡这一环只有 10 个季节的数据，不含 2015 年。
-- 检验用的数据之前做过探索性分析，所以不算预注册研究。
+- 检验用的数据我之前已经探索过，所以这不算预注册研究。
 - 结果是逐年相关，不能证明因果，也不预测 2027 年。
-- 这是个人项目，没有经过同行评审。
+- 这是我的个人项目，没有经过同行评审。
 
-本仓库与 AI4Climate 参赛项目 `sg-haze-window` 无关，这里的结果不进入那个产品。
+本仓库和我的 AI4Climate 参赛项目 `sg-haze-window` 是两回事，这里的结果不会用到那个产品里。
 
 ## 目录
 
 | 路径 | 内容 |
 |---|---|
-| `data/raw/` | 原始 API 返回文件，原样保存。**只读**：不手动修改，所有清洗都在代码里完成。用 `SHA256SUMS.txt` 可以检查文件是否被改动（`cd data/raw && sha256sum -c SHA256SUMS.txt`）。 |
+| `data/raw/` | 原始 API 返回文件，原样保存，只读不改，清洗全部在代码里做。用 `SHA256SUMS.txt` 可以检查文件有没有被改过（`cd data/raw && sha256sum -c SHA256SUMS.txt`）。 |
 | `src/fetch.py` | 下载原始数据（已存在的文件会跳过）。 |
 | `src/analyse.py` | 第 1 轮：计算 SOI、季节降雨和新加坡雾霾指标，做相关分析。 |
 | `src/analyse_r2.py` | 第 2 轮：用官方 ONI 交叉核对，加入印度洋偶极子。读取第 1 轮结果，需在 `analyse.py` 之后运行。 |
@@ -43,7 +43,7 @@
 | `src/confirmatory.py` | 按 `docs/research_plan_v1.md` 做主检验和稳健性检验。在 `analyse_r4.py` 之后运行，需要 `statsmodels`。 |
 | `src/fire_months.py` | 计算 8 至 10 月火点在各月的占比（论文里时间点的说法来自这里）。 |
 | `src/plot.py` | 绘制 `results/enso_haze.png`。 |
-| `results/` | 当前代码的输出。需要更新时重新运行代码，不手动修改。 |
+| `results/` | 当前代码的输出。要更新就重跑代码，不要手改。 |
 | `docs/` | 论文 PDF、冻结的研究计划、文献综述，以及每轮分析的记录。 |
 | `LICENSE` | 本仓库代码和文字采用 MIT 许可证。原始数据沿用各自的许可（见下文）。 |
 
@@ -81,7 +81,7 @@ python src/plot.py results
 | ONI（CPC，ERSST v6，3 个月滑动平均；文件注明 "as of 09/7/2026"） | NOAA PSL `psl.noaa.gov/data/correlation/oni.data`，由 Toni 手动下载，保存为 `noaa_psl_oni.data` | 1950 年 1 月至 2026 年 8 月（中心月） | 美国政府数据 |
 | 偶极子模态指数 DMI（HadISST1.1；2026 年 7 月 25 日生成，最近几个月为初步值） | NOAA PSL `psl.noaa.gov/gcos_wgsp/Timeseries/Data/dmi.had.long.data`，由 Toni 手动下载，保存为 `noaa_psl_dmi_had_long.data` | 1870 年 1 月至 2026 年 5 月 | NOAA PSL；HadISST 为英国气象局数据，需署名 |
 | GPCP v2.3 月降水，2.5°（卫星 + 雨量站；2021 年 11 月起为临时版） | NOAA PSL `downloads.psl.noaa.gov/Datasets/gpcp/precip.mon.mean.nc`，由 Toni 手动下载，保存为 `noaa_psl_gpcp_v2.3_precip.mon.mean.nc` | 1979 年 1 月至 2026 年 6 月 | NOAA PSL；引用 Adler et al. 2003（文件内有引文） |
-| MODIS 火点（2001 至 2025 年 MODIS_SP；2026 年 MODIS_NRT） | NASA FIRMS 区域 API，范围 100–116.5°E、5°S–2.3°N，2026 年 10 月 16 日用 Toni 的 MAP_KEY 下载 | 2001 至 2025 年每年 8 月 1 日至 10 月 31 日；2026 年 8 月 1 日至 10 月 15 日 | NASA 开放数据；引用 FIRMS |
+| MODIS 火点（2001 至 2025 年 MODIS_SP；2026 年 MODIS_NRT） | NASA FIRMS 区域 API，范围东经 100 至 116.5 度、南纬 5 度至北纬 2.3 度，2026 年 10 月 16 日用 Toni 的 MAP_KEY 下载 | 2001 至 2025 年每年 8 月 1 日至 10 月 31 日；2026 年 8 月 1 日至 10 月 15 日 | NASA 开放数据；引用 FIRMS |
 | 分区 PSI 和 24 小时 PM2.5，逐小时 | NEA，经 data.gov.sg 实时 API（`/v2/real-time/api/psi?date=`） | 2016 至 2025 年每年 8 月 1 日至 10 月 31 日；2026 年 8 月 1 日至 10 月 15 日 | Singapore Open Data Licence；注明来源，不得暗示官方身份 |
 
 ERA5 取点（请求的纬度、经度；Open-Meteo 会对齐到最近的网格，实际网格记录在每个 JSON 里）：
@@ -92,9 +92,9 @@ ERA5 取点（请求的纬度、经度；Open-Meteo 会对齐到最近的网格�
 
 ## 方法说明
 
-- **从第 3 轮起，主分析用官方 ONI 配 GPCP 降雨。** 第 3 轮发现，SOI 看起来比 ONI 更好，部分原因是 SOI 和 ERA5 降雨来自同一个数据源。
-- **第 1 轮的 ENSO 指数是本仓库自己算的 SOI。** 当时工作环境连不上 NOAA 网站，第 2 轮才加入官方 ONI 交叉核对。SOI 用 Troup 公式，基于 ERA5 月平均的塔希提减达尔文气压，基准期 1981 至 2010 年。负值表示厄尔尼诺。它不是澳大利亚气象局发布的官方 SOI。
-- **新加坡指标每年都由 5 个分区重新计算**，因为 2024 年起 API 不再提供 `national` 字段。PSI 取各区最大值（NEA 全国 PSI 的定义）；PM2.5 取该小时有读数的各区平均。
+- 从第 3 轮起，主分析用官方 ONI 配 GPCP 降雨。第 3 轮发现，SOI 之所以看起来比 ONI 好，部分是因为 SOI 和 ERA5 降雨出自同一个数据源。
+- 第 1 轮用的是本仓库自己算的 SOI，因为当时工作环境连不上 NOAA 网站，到第 2 轮才加入官方 ONI 做交叉核对。SOI 用 Troup 公式，基于 ERA5 月平均的塔希提减达尔文气压，基准期 1981 至 2010 年。负值表示厄尔尼诺。它不是澳大利亚气象局发布的官方 SOI。
+- 新加坡指标每年都用 5 个分区重新计算，因为 2024 年起 API 不再提供 `national` 字段。PSI 取各区最大值（NEA 全国 PSI 的定义）；PM2.5 取该小时有读数的各区平均。
 - 季节降雨 = 每个岛 3 个点在 8 至 10 月的平均，单位毫米/日。只要缺一天，该季节就留空。
 
 ## 已知数据问题（保留，不填补）
