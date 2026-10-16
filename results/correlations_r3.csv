@@ -1,0 +1,21 @@
+test,x,y,n,years,pearson_r,pearson_p,spearman_rho,spearman_p
+"1: ERA5 vs GPCP rain, Aug-Oct",rain_sumatra_aso,gpcp_sumatra_aso,47,1979-2025,0.908,0.0,0.883,0.0
+"1: ERA5 vs GPCP rain, Aug-Oct",rain_kalimantan_aso,gpcp_kalimantan_aso,47,1979-2025,0.926,0.0,0.947,0.0
+2: SOI -> rain (ERA5),soi_aso,rain_sumatra_aso,47,1979-2025,0.807,0.0,0.774,0.0
+2: ONI -> rain (ERA5),oni_aso,rain_sumatra_aso,47,1979-2025,-0.692,0.0,-0.663,0.0
+2: SOI -> rain (GPCP),soi_aso,gpcp_sumatra_aso,47,1979-2025,0.768,0.0,0.684,0.0
+2: ONI -> rain (GPCP),oni_aso,gpcp_sumatra_aso,47,1979-2025,-0.741,0.0,-0.662,0.0
+2: SOI -> rain (ERA5),soi_aso,rain_kalimantan_aso,47,1979-2025,0.874,0.0,0.891,0.0
+2: ONI -> rain (ERA5),oni_aso,rain_kalimantan_aso,47,1979-2025,-0.698,0.0,-0.758,0.0
+2: SOI -> rain (GPCP),soi_aso,gpcp_kalimantan_aso,47,1979-2025,0.905,0.0,0.903,0.0
+2: ONI -> rain (GPCP),oni_aso,gpcp_kalimantan_aso,47,1979-2025,-0.821,0.0,-0.843,0.0
+4: DMI -> rain (GPCP),dmi_aso,gpcp_sumatra_aso,47,1979-2025,-0.733,0.0,-0.685,0.0
+"4: DMI -> rain (GPCP), ONI held fixed",dmi_aso | oni_aso,gpcp_sumatra_aso,47,1979-2025,-0.551,0.0001,,
+"4: DMI -> rain (ERA5, 1979-2025), ONI held fixed",dmi_aso | oni_aso,rain_sumatra_aso,47,1979-2025,-0.432,0.0027,,
+4: DMI -> rain (GPCP),dmi_aso,gpcp_kalimantan_aso,47,1979-2025,-0.626,0.0,-0.615,0.0
+"4: DMI -> rain (GPCP), ONI held fixed",dmi_aso | oni_aso,gpcp_kalimantan_aso,47,1979-2025,-0.314,0.0334,,
+"4: DMI -> rain (ERA5, 1979-2025), ONI held fixed",dmi_aso | oni_aso,rain_kalimantan_aso,47,1979-2025,-0.155,0.3022,,
+5: GPCP rain -> Singapore haze (2016-2025),gpcp_sumatra_aso,sg_pm25_mean,10,2016-2025,-0.8,0.0055,-0.758,0.0111
+5: GPCP rain -> Singapore haze (2016-2025),gpcp_sumatra_aso,sg_days_psi_over_100,10,2016-2025,-0.562,0.0906,-0.574,0.0826
+5: GPCP rain -> Singapore haze (2016-2025),gpcp_kalimantan_aso,sg_pm25_mean,10,2016-2025,-0.805,0.005,-0.879,0.0008
+5: GPCP rain -> Singapore haze (2016-2025),gpcp_kalimantan_aso,sg_days_psi_over_100,10,2016-2025,-0.444,0.1982,-0.574,0.0826

@@ -64,3 +64,7 @@ ONI Jun–Aug 1.80, the highest Jun–Aug value in the 1950–2026 file (next: 1
 1. Test whether the SOI advantage is a shared-ERA5 artefact: rerun the rain tests with an independent rainfall record (e.g. CHIRPS or GPCP), if one can be obtained.
 2. FIRMS fire counts by island, to see whether 2019 and 2023 differ in where fires burned. Needs the FIRMS key.
 3. Palm oil prices (round 3).
+
+## Update (round 3)
+
+With independent GPCP rain, about three-quarters (Sumatra) and half (Kalimantan) of the SOI-over-ONI advantage disappears; it was partly a shared-ERA5 artefact. The El Niño → rain link holds with ONI + GPCP. See `2026-10-16_round3_gpcp.md`.

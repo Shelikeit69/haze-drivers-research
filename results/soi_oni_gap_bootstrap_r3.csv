@@ -1,0 +1,5 @@
+island,rain,n,gap_abs_r_soi_minus_oni,ci95_low,ci95_high
+sumatra,ERA5,47,0.115,0.023,0.223
+sumatra,GPCP,47,0.027,-0.068,0.125
+kalimantan,ERA5,47,0.176,0.086,0.271
+kalimantan,GPCP,47,0.084,0.015,0.158
