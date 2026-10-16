@@ -1,0 +1,19 @@
+test,x,y,n,years,pearson_r,pearson_p,spearman_rho,spearman_p
+A: ENSO -> rain (1950-2025),soi_jja,rain_sumatra_aso,76,1950-2025,0.74,0.0,0.768,0.0
+A: ENSO -> rain (1950-2025),soi_jja,rain_kalimantan_aso,76,1950-2025,0.776,0.0,0.794,0.0
+A: ENSO -> rain (1950-2025),soi_aso,rain_sumatra_aso,76,1950-2025,0.721,0.0,0.744,0.0
+A: ENSO -> rain (1950-2025),soi_aso,rain_kalimantan_aso,76,1950-2025,0.831,0.0,0.848,0.0
+B: -> Singapore haze (2016-2025),soi_jja,sg_pm25_mean,10,2016-2025,-0.833,0.0027,-0.903,0.0003
+B: -> Singapore haze (2016-2025),soi_jja,sg_days_psi_over_100,10,2016-2025,-0.51,0.1317,-0.649,0.0424
+B: -> Singapore haze (2016-2025),soi_aso,sg_pm25_mean,10,2016-2025,-0.795,0.006,-0.879,0.0008
+B: -> Singapore haze (2016-2025),soi_aso,sg_days_psi_over_100,10,2016-2025,-0.527,0.1178,-0.693,0.0262
+B: -> Singapore haze (2016-2025),rain_sumatra_aso,sg_pm25_mean,10,2016-2025,-0.806,0.0049,-0.782,0.0075
+B: -> Singapore haze (2016-2025),rain_sumatra_aso,sg_days_psi_over_100,10,2016-2025,-0.542,0.1059,-0.574,0.0826
+B: -> Singapore haze (2016-2025),rain_kalimantan_aso,sg_pm25_mean,10,2016-2025,-0.785,0.0071,-0.952,0.0
+B: -> Singapore haze (2016-2025),rain_kalimantan_aso,sg_days_psi_over_100,10,2016-2025,-0.459,0.182,-0.664,0.0364
+"C: same window 1 Aug-10 Oct, incl. 2026",soi_jja,w_sg_pm25_mean,11,2016-2026,-0.907,0.0001,-0.882,0.0003
+"C: same window 1 Aug-10 Oct, incl. 2026",soi_jja,w_sg_days_psi_over_100,11,2016-2026,-0.83,0.0016,-0.748,0.0082
+"C: same window 1 Aug-10 Oct, incl. 2026",w_rain_sumatra,w_sg_pm25_mean,11,2016-2026,-0.808,0.0026,-0.873,0.0005
+"C: same window 1 Aug-10 Oct, incl. 2026",w_rain_sumatra,w_sg_days_psi_over_100,11,2016-2026,-0.632,0.0369,-0.758,0.0069
+"C: same window 1 Aug-10 Oct, incl. 2026",w_rain_kalimantan,w_sg_pm25_mean,11,2016-2026,-0.769,0.0056,-0.918,0.0001
+"C: same window 1 Aug-10 Oct, incl. 2026",w_rain_kalimantan,w_sg_days_psi_over_100,11,2016-2026,-0.597,0.0527,-0.758,0.0069
