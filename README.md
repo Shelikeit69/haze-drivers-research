@@ -17,6 +17,7 @@ Separate from the AI4Climate entry `sg-haze-window`. Nothing here feeds that pro
 | `src/analyse_r4.py` | Round 4: drought → fires → Singapore PM2.5. Run after `analyse_r3.py`. |
 | `src/plot_r4.py` | Draws `results/fires_r4.png`. |
 | `src/confirmatory.py` | Primary tests and robustness checks under `docs/research_plan_v1.md`. Run after `analyse_r4.py`. Needs `statsmodels`. |
+| `src/fire_months.py` | Share of Aug–Oct fire detections by month (used for the timing statement in the paper). |
 | `src/plot.py` | Draws `results/enso_haze.png`. |
 | `results/` | Outputs of the current code. Regenerate rather than edit. |
 | `docs/` | Findings notes, one per analysis round. |
@@ -30,6 +31,7 @@ python src/analyse_r3.py data/raw results
 python src/analyse_r4.py data/raw results
 python src/plot_r4.py results
 python src/confirmatory.py results
+python src/fire_months.py data/raw results
 python src/plot.py results
 ```
 
