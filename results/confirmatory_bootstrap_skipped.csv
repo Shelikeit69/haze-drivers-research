@@ -1,0 +1,15 @@
+,skipped_resamples
+H1,0
+H2,0
+H3a,0
+H3b,0
+H4,0
+H1 | ERA5 rain instead of GPCP,0
+H2 | ERA5 rain instead of GPCP,0
+H3a | linear trend instead of post2016,0
+H3a | type-0 fires only,0
+H3a | ERA5 rain instead of GPCP,0
+H3b | linear trend instead of post2016,0
+H3b | type-0 fires only,1
+H3b | ERA5 rain instead of GPCP,0
+H4 | Pearson instead of Spearman,0

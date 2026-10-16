@@ -16,6 +16,7 @@ Separate from the AI4Climate entry `sg-haze-window`. Nothing here feeds that pro
 | `src/fetch_firms.py` | Downloads NASA FIRMS MODIS fire detections. Reads the key from `FIRMS_MAP_KEY`; the key is never stored. |
 | `src/analyse_r4.py` | Round 4: drought → fires → Singapore PM2.5. Run after `analyse_r3.py`. |
 | `src/plot_r4.py` | Draws `results/fires_r4.png`. |
+| `src/confirmatory.py` | Primary tests and robustness checks under `docs/research_plan_v1.md`. Run after `analyse_r4.py`. Needs `statsmodels`. |
 | `src/plot.py` | Draws `results/enso_haze.png`. |
 | `results/` | Outputs of the current code. Regenerate rather than edit. |
 | `docs/` | Findings notes, one per analysis round. |
@@ -28,10 +29,11 @@ python src/analyse_r2.py data/raw results
 python src/analyse_r3.py data/raw results
 python src/analyse_r4.py data/raw results
 python src/plot_r4.py results
+python src/confirmatory.py results
 python src/plot.py results
 ```
 
-Needs Python 3 with pandas, numpy, scipy, matplotlib, netCDF4. Re-downloading (`python src/fetch.py data/raw`) is only needed to extend the data; it will not overwrite existing files.
+Needs Python 3 with pandas, numpy, scipy, matplotlib, netCDF4, statsmodels. Re-downloading (`python src/fetch.py data/raw`) is only needed to extend the data; it will not overwrite existing files.
 
 ## Data sources (downloaded 16 Oct 2026)
 
