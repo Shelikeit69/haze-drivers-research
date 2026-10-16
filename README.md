@@ -1,6 +1,30 @@
 # Haze drivers research
 
-What drives the Indonesia-to-Singapore haze season? This repo tests the climate link first (El Niño → Indonesian dry-season rain → Singapore haze). Crop economics (palm oil prices, biodiesel mandates, replanting cycles) come later.
+[中文版](README.zh-CN.md)
+
+**Since 2016 Indonesia burns far less for the same amount of rain, but an El Niño summer still means a drier fire season, more fires and worse haze in Singapore.**
+
+Read the short paper: [docs/paper_climate_fire_singapore_haze_2026-10-16.pdf](docs/paper_climate_fire_singapore_haze_2026-10-16.pdf) (12 pages, 6 figures).
+
+## Main numbers
+
+All five planned tests hold after Holm correction for multiple testing.
+
+| Link | Result | Years |
+|---|---|---|
+| El Niño (ONI, June to August) and Kalimantan rain (August to October) | r = −0.79 | 1979 to 2025 |
+| Indian Ocean Dipole and Sumatra rain, El Niño held fixed | 1.7 mm/day less rain per 1 °C | 1979 to 2025 |
+| Rain and fire detections, policy period held fixed | 1 mm/day less rain: 1.55× fires in Sumatra, 1.44× in Kalimantan | 2001 to 2025 |
+| Fires since 2016 at the same rain | about 77% fewer in Sumatra, 47% fewer in Kalimantan | 2001 to 2025 |
+| Fire detections and Singapore PM2.5 | Spearman ρ = 0.88 | 2016 to 2025 (10 seasons) |
+
+## Limits
+
+- The June to August indices are published in September. They warn ahead of September and October, which held 67% of August to October fire detections in 2001 to 2025, but not before the season starts.
+- The Singapore link rests on ten seasons and does not include 2015.
+- The tests were run on data that had already been explored, so this is not a pre-registered study.
+- These are yearly correlations. They do not prove cause, and nothing here forecasts 2027.
+- This is a personal project. It has not been peer reviewed.
 
 Separate from the AI4Climate entry `sg-haze-window`. Nothing here feeds that product.
 
@@ -20,7 +44,8 @@ Separate from the AI4Climate entry `sg-haze-window`. Nothing here feeds that pro
 | `src/fire_months.py` | Share of Aug–Oct fire detections by month (used for the timing statement in the paper). |
 | `src/plot.py` | Draws `results/enso_haze.png`. |
 | `results/` | Outputs of the current code. Regenerate rather than edit. |
-| `docs/` | Findings notes, one per analysis round. |
+| `docs/` | The paper (PDF), the frozen research plan, the literature review and one findings note per analysis round. |
+| `LICENSE` | MIT licence for the code and text written here. Raw data keep their own licences (see below). |
 
 ## Reproduce
 
@@ -36,6 +61,17 @@ python src/plot.py results
 ```
 
 Needs Python 3 with pandas, numpy, scipy, matplotlib, netCDF4, statsmodels. Re-downloading (`python src/fetch.py data/raw`) is only needed to extend the data; it will not overwrite existing files.
+
+## Licence and attribution
+
+Code, notes and the paper in this repo are released under the MIT licence (`LICENSE`), copyright Zhang Lin Si Cheng.
+
+Files in `data/raw/` are copies of third-party data and are not covered by the MIT licence. Each keeps the terms in the table below. If you reuse them, credit the original source:
+
+- Singapore PSI and PM2.5: contains information from the PSI dataset accessed on 16 Oct 2026 from data.gov.sg, made available under the Singapore Open Data Licence version 1.0.
+- ERA5 rain and pressure: weather data by Open-Meteo.com (CC BY 4.0), based on Copernicus Climate Change Service ERA5 reanalysis.
+- ONI, DMI and GPCP: NOAA Physical Sciences Laboratory. HadISST (behind the DMI) is Met Office data. Cite Adler et al. (2003) for GPCP.
+- Fire detections: NASA FIRMS (MODIS standard product for 2001 to 2025, near-real-time product for 2026).
 
 ## Data sources (downloaded 16 Oct 2026)
 
