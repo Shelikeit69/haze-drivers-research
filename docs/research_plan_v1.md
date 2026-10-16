@@ -1,6 +1,6 @@
-# Research plan — DRAFT (not frozen)
+# Research plan v1 — FROZEN
 
-Status: draft for Toni's approval, 16 Oct 2026. Once approved it is renamed `research_plan_v1.md` and not edited; any later change goes in a dated "Deviations" section.
+Status: approved by Toni and frozen on 16 Oct 2026. Not to be edited; any later change goes in the dated "Deviations" section at the end.
 
 ## Honesty statement (will appear in the paper)
 
