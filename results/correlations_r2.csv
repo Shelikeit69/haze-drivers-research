@@ -1,0 +1,20 @@
+test,x,y,n,years,pearson_r,pearson_p,spearman_rho,spearman_p
+"1: SOI(3-mo) vs ONI, monthly 1950-2025",soi3,oni,911,195002-202512,-0.788,0.0,-0.798,0.0
+"1: SOI vs ONI, Aug-Oct, yearly",soi_aso,oni_aso,76,1950-2025,-0.873,0.0,-0.897,0.0
+2: ONI -> rain (1950-2025),oni_jja,rain_sumatra_aso,76,1950-2025,-0.652,0.0,-0.667,0.0
+2: ONI -> rain (1950-2025),oni_jja,rain_kalimantan_aso,76,1950-2025,-0.666,0.0,-0.703,0.0
+2: ONI -> rain (1950-2025),oni_aso,rain_sumatra_aso,76,1950-2025,-0.643,0.0,-0.639,0.0
+2: ONI -> rain (1950-2025),oni_aso,rain_kalimantan_aso,76,1950-2025,-0.699,0.0,-0.74,0.0
+2: ONI -> Singapore haze (2016-2025),oni_jja,sg_pm25_mean,10,2016-2025,0.607,0.063,0.818,0.0038
+2: ONI -> Singapore haze (2016-2025),oni_jja,sg_days_psi_over_100,10,2016-2025,0.265,0.4595,0.47,0.1707
+2: ONI -> Singapore haze (2016-2025),oni_aso,sg_pm25_mean,10,2016-2025,0.566,0.0884,0.83,0.0029
+2: ONI -> Singapore haze (2016-2025),oni_aso,sg_days_psi_over_100,10,2016-2025,0.213,0.5546,0.455,0.1866
+"3: ONI vs DMI overlap, Aug-Oct (1950-2025)",oni_aso,dmi_aso,76,1950-2025,0.523,0.0,0.473,0.0
+3: DMI -> rain (1950-2025),dmi_aso,rain_sumatra_aso,76,1950-2025,-0.549,0.0,-0.543,0.0
+"3: DMI -> rain, ONI held fixed (partial r)",dmi_aso | oni_aso,rain_sumatra_aso,76,1950-2025,-0.325,0.0044,,
+"3: ONI -> rain, DMI held fixed (partial r)",oni_aso | dmi_aso,rain_sumatra_aso,76,1950-2025,-0.5,0.0,,
+3: DMI -> rain (1950-2025),dmi_aso,rain_kalimantan_aso,76,1950-2025,-0.528,0.0,-0.546,0.0
+"3: DMI -> rain, ONI held fixed (partial r)",dmi_aso | oni_aso,rain_kalimantan_aso,76,1950-2025,-0.266,0.0211,,
+"3: ONI -> rain, DMI held fixed (partial r)",oni_aso | dmi_aso,rain_kalimantan_aso,76,1950-2025,-0.584,0.0,,
+3: DMI -> Singapore haze (2016-2025),dmi_aso,sg_pm25_mean,10,2016-2025,0.658,0.0386,0.648,0.0425
+3: DMI -> Singapore haze (2016-2025),dmi_aso,sg_days_psi_over_100,10,2016-2025,0.313,0.3793,0.395,0.2583

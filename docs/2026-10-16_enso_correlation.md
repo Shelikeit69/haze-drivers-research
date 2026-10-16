@@ -37,3 +37,7 @@ All numbers come from `results/correlations.csv` and `results/yearly.csv` produc
 1. Add the IOD (Dipole Mode Index). Needs a file from BoM or NOAA, which the work environment cannot download.
 2. Add FIRMS fire counts for Sumatra and Kalimantan: rain → fires → Singapore PM2.5. Needs a FIRMS key.
 3. Add palm oil prices: in equally dry years, are there more fires when prices are high? Watch the confounding: El Niño cuts palm output and pushes prices up.
+
+## Update (round 2)
+
+Redone with the official ONI, the El Niño → Singapore PM2.5 Pearson test is weaker (r = 0.607, p = 0.063); only the rank test stays significant. Do not quote r = −0.833 on its own. See `2026-10-16_round2_oni_iod.md`.
