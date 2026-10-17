@@ -42,6 +42,7 @@
 | `src/plot_r4.py` | 绘制 `results/fires_r4.png`。 |
 | `src/confirmatory.py` | 按 `docs/research_plan_v1.md` 做主检验和稳健性检验。在 `analyse_r4.py` 之后运行，需要 `statsmodels`。 |
 | `src/fire_months.py` | 计算 8 至 10 月火点在各月的占比（论文里时间点的说法来自这里）。 |
+| `src/posthoc_checks.py` | 收到评审意见后补做的检验（负二项模型、一阶差分、平稳性），不在冻结的研究计划内。 |
 | `src/plot.py` | 绘制 `results/enso_haze.png`。 |
 | `results/` | 当前代码的输出。要更新就重跑代码，不要手改。 |
 | `docs/` | 论文 PDF、冻结的研究计划、文献综述，以及每轮分析的记录。 |
@@ -58,6 +59,7 @@ python src/plot_r4.py results
 python src/confirmatory.py results
 python src/fire_months.py data/raw results
 python src/plot.py results
+python src/posthoc_checks.py results
 ```
 
 需要 Python 3，以及 pandas、numpy、scipy、matplotlib、netCDF4、statsmodels。只有要补充新数据时才需要重新下载（`python src/fetch.py data/raw`），已有文件不会被覆盖。

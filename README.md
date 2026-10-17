@@ -42,6 +42,7 @@ It is separate from my AI4Climate entry `sg-haze-window`, and nothing here feeds
 | `src/plot_r4.py` | Draws `results/fires_r4.png`. |
 | `src/confirmatory.py` | Primary tests and robustness checks from `docs/research_plan_v1.md`. Run after `analyse_r4.py`. Needs `statsmodels`. |
 | `src/fire_months.py` | Monthly share of August to October fire detections. The paper's timing statement comes from this. |
+| `src/posthoc_checks.py` | Post-hoc checks after reviewer feedback (negative binomial, first differences, stationarity). Outside the frozen plan. |
 | `src/plot.py` | Draws `results/enso_haze.png`. |
 | `results/` | Output of the current code. Rerun the code instead of editing these files. |
 | `docs/` | The paper (PDF), the frozen research plan, the literature review and one note per analysis round. |
@@ -58,6 +59,7 @@ python src/plot_r4.py results
 python src/confirmatory.py results
 python src/fire_months.py data/raw results
 python src/plot.py results
+python src/posthoc_checks.py results
 ```
 
 You need Python 3 with pandas, numpy, scipy, matplotlib, netCDF4 and statsmodels. You only need to download again (`python src/fetch.py data/raw`) to add new data. Existing files are not overwritten.

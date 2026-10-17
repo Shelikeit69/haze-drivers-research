@@ -1,0 +1,25 @@
+check,item,stat,p,n,note
+zero_counts,sumatra,0.0,,25,"min 586, max 47458"
+negbin_rain_coef,sumatra,-0.4198,1.3330894482424493e-17,25,x1.522 fires per 1 mm/day less rain; post2016 x0.225
+ols_log10_rain_coef,sumatra,-0.1891,4.500344002632987e-07,25,x1.546 per 1 mm/day less rain
+ols_hac2_rain_coef,sumatra,-0.1891,8.363671536087479e-14,25,
+first_diff_rain_coef,sumatra,-0.1879,2.7337344077881853e-08,24,
+zero_counts,kalimantan,0.0,,25,"min 1542, max 62869"
+negbin_rain_coef,kalimantan,-0.3672,7.4960494648222235e-37,25,x1.444 fires per 1 mm/day less rain; post2016 x0.551
+ols_log10_rain_coef,kalimantan,-0.1596,4.845258887957267e-10,25,x1.444 per 1 mm/day less rain
+ols_hac2_rain_coef,kalimantan,-0.1596,3.0969602602489904e-42,25,
+first_diff_rain_coef,kalimantan,-0.1744,2.4268717311134906e-10,24,
+first_diff_H1_pearson,oni vs kalimantan rain,-0.8371,4.218306058294971e-13,46,
+first_diff_H4_spearman,fires vs sg pm25,0.9,0.0009430623223403288,9,
+adf (H0 unit root),oni_jja,-6.659,4.900810255747616e-09,47,
+kpss (H0 stationary; p capped 0.01-0.10),oni_jja,0.149,0.1,47,
+adf (H0 unit root),dmi_jja,-6.8511,1.6931441816762236e-09,47,
+kpss (H0 stationary; p capped 0.01-0.10),dmi_jja,0.6105,0.021681459201825796,47,
+adf (H0 unit root),gpcp_sumatra_aso,-6.4682,1.387965912630143e-08,47,
+kpss (H0 stationary; p capped 0.01-0.10),gpcp_sumatra_aso,0.1168,0.1,47,
+adf (H0 unit root),gpcp_kalimantan_aso,-6.7207,3.4897800465316444e-09,47,
+kpss (H0 stationary; p capped 0.01-0.10),gpcp_kalimantan_aso,0.1234,0.1,47,
+adf (H0 unit root),log_fires_sumatra,-0.444,0.9024898427005341,25,
+kpss (H0 stationary; p capped 0.01-0.10),log_fires_sumatra,0.4955,0.04268478271673585,25,
+adf (H0 unit root),log_fires_kalimantan,-4.1236,0.0008850540042703532,25,
+kpss (H0 stationary; p capped 0.01-0.10),log_fires_kalimantan,0.5661,0.026778561344393548,25,
