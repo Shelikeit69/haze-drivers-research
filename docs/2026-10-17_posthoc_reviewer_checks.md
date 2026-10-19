@@ -33,3 +33,21 @@ HAC (Newey–West, 2 lags) standard errors were also computed for H3. With n = 2
 
 - **Model PM2.5 directly.** With ten seasons, a seasonal PM2.5 model cannot take many covariates. A daily model (PM2.5 against lagged fires, rain and wind) is the natural next step.
 - **PM2.5 is not the same as haze.** The seasonal mean includes local pollution and humidity effects. Options: excess over a non-haze baseline, or days above a threshold.
+
+## 5. Second reviewer (19 Oct 2026): break year and dependence
+
+Numbers from `results/posthoc_checks.csv` and `results/posthoc_break_scan.csv`.
+
+**Break year.** Moving the step from 2008 to 2021 one year at a time:
+
+- The rain coefficient barely moves: Sumatra −0.177 to −0.225, Kalimantan −0.160 to −0.176. The drought-fire link does not depend on the break year.
+- The size of the drop does: Sumatra ×0.21 to ×0.51, Kalimantan ×0.53 to ×0.82, and in Kalimantan the step stops being significant for breaks from 2018 on. **The 77% and 47% figures are specific to a 2016 break and should be reported as such.**
+- 2016 gives the lowest AIC on both islands, but Kalimantan 2012 is close (AIC −12.03 against −12.17). The 2016 choice came from the literature before the final tests, not from this scan; picking the best year from the scan would overstate the fit.
+
+**Step or trend.** With both a linear trend and the 2016 step in the model, the trend adds nothing (p 0.73 Sumatra, 0.72 Kalimantan) while the step stays (p 0.002, 0.04). With 25 years this leans towards a step but does not rule out a gradual change.
+
+**Unit root with a break.** Zivot–Andrews with one lag gives p 0.07 (Sumatra, break 2019) and 0.05 (Kalimantan, break 2012). With no lag the Sumatra test fails to compute. At n = 25 the test is unstable; no conclusion drawn.
+
+**Dependence-aware bootstrap.** A moving-block bootstrap (blocks of 2, 3 and 4 years, 10,000 resamples) gives 95% intervals for the rain coefficient of about −0.23 to −0.13 (Sumatra) and −0.20 to −0.14 (Kalimantan), almost the same as the year-by-year bootstrap.
+
+**VIIRS.** Still not run, so MODIS orbital drift is not ruled out.

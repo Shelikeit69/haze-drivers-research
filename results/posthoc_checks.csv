@@ -23,3 +23,15 @@ adf (H0 unit root),log_fires_sumatra,-0.444,0.9024898427005341,25,
 kpss (H0 stationary; p capped 0.01-0.10),log_fires_sumatra,0.4955,0.04268478271673585,25,
 adf (H0 unit root),log_fires_kalimantan,-4.1236,0.0008850540042703532,25,
 kpss (H0 stationary; p capped 0.01-0.10),log_fires_kalimantan,0.5661,0.026778561344393548,25,
+trend_plus_step: p_trend,sumatra,0.0048,0.7273648626269322,25,
+trend_plus_step: p_step,sumatra,-0.7069,0.0020041452280661776,25,
+zivot_andrews (maxlag 1),sumatra,-4.6928,0.07193670431723893,25,break year 2019; unstable at n=25
+block_bootstrap_L2_rain_coef_CI,sumatra,-0.2319,,9992,95% CI -0.232 to -0.131; skipped 8
+block_bootstrap_L3_rain_coef_CI,sumatra,-0.2304,,9925,95% CI -0.230 to -0.133; skipped 75
+block_bootstrap_L4_rain_coef_CI,sumatra,-0.2317,,9814,95% CI -0.232 to -0.132; skipped 186
+trend_plus_step: p_trend,kalimantan,0.0035,0.7181094491768142,25,
+trend_plus_step: p_step,kalimantan,-0.3196,0.03757074029777924,25,
+zivot_andrews (maxlag 1),kalimantan,-4.8153,0.0494806950915908,25,break year 2012; unstable at n=25
+block_bootstrap_L2_rain_coef_CI,kalimantan,-0.1966,,9992,95% CI -0.197 to -0.140; skipped 8
+block_bootstrap_L3_rain_coef_CI,kalimantan,-0.1952,,9925,95% CI -0.195 to -0.142; skipped 75
+block_bootstrap_L4_rain_coef_CI,kalimantan,-0.194,,9814,95% CI -0.194 to -0.144; skipped 186
