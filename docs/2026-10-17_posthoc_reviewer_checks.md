@@ -1,53 +1,52 @@
-# Post-hoc checks after reviewer feedback (17 Oct 2026)
+# Post-hoc checks after reviewer feedback (17 and 19 Oct 2026)
 
-A statistician (PhD, r/AskStatistics) raised four points on the design. These checks respond to them. They are **post hoc**, outside the frozen plan, and do not replace the primary tests. Numbers from `results/posthoc_checks.csv`, produced by `src/posthoc_checks.py`.
+Two readers on r/AskStatistics commented on the design: a statistician on 17 October and a second reader on 19 October. The checks below answer their points. None of them was in the frozen plan, so they are reported as post hoc. They do not replace the primary tests, and none of them changes a primary result. The numbers come from `results/posthoc_checks.csv` and `results/posthoc_break_scan.csv`, both produced by `src/posthoc_checks.py`.
 
 ## 1. Counts and zeros
 
-No season has zero detections. Minimum is 586 (Sumatra) and 1,542 (Kalimantan), so a zero-inflated model is not needed.
+No season has zero detections. The smallest season has 586 detections in Sumatra and 1,542 in Kalimantan, so a zero-inflated model is not needed.
 
-## 2. Negative binomial instead of OLS on log10 counts
+## 2. Negative binomial model instead of least squares on log counts
 
-| Island | 1 mm/day less rain (NB) | Same (OLS log10) | Post-2016 factor (NB) | Same (OLS) |
+| Island | 1 mm/day less rain, negative binomial | Same, least squares on log10 | Post-2016 factor, negative binomial | Same, least squares |
 |---|---|---|---|---|
 | Sumatra | ×1.52 (p 1.3e-17) | ×1.55 | ×0.23 | ×0.23 |
 | Kalimantan | ×1.44 (p 7.5e-37) | ×1.44 | ×0.55 | ×0.53 |
 
-The count model gives nearly the same effect sizes. NB p-values are much smaller than OLS ones; with n = 25 they should not be read as more convincing.
+The count model gives nearly the same effect sizes. Its p-values are much smaller than the least-squares ones, but with 25 years they should not be read as stronger evidence.
 
 ## 3. Spurious regression
 
-Rain, ONI and DMI pass ADF (unit root rejected, p < 0.001). KPSS does not reject stationarity for ONI and both rain series, but does for DMI (p 0.02), which suggests a slow trend. Log fire counts look non-stationary: Sumatra fails ADF (p 0.90), and both islands fail KPSS (p 0.04 and 0.03), consistent with the post-2015 break.
+The rain series and both ocean indices pass the augmented Dickey-Fuller test (unit root rejected, p below 0.001). The KPSS test does not reject stationarity for the El Niño index and the two rain series. It does reject it for the Dipole index (p 0.02), which points to a slow trend. Log fire counts look non-stationary: Sumatra fails the Dickey-Fuller test (p 0.90), and both islands fail KPSS (p 0.04 and 0.03). That fits the break after 2015.
 
-Re-running in first differences (year-to-year changes):
+I re-ran the links on year-to-year changes instead of levels:
 
-- H1: r = −0.84 (n = 46, p 4e-13), stronger than in levels (−0.79).
-- H3: rain coefficient −0.188 Sumatra, −0.174 Kalimantan (n = 24, both p < 1e-7), close to levels (−0.189, −0.160).
-- H4: Spearman ρ = 0.90 (n = 9, p 0.001).
+- El Niño index and Kalimantan rain: r = −0.84 (46 differences, p 4e-13), stronger than the −0.79 in levels.
+- Rain and log fires: coefficients of −0.188 in Sumatra and −0.174 in Kalimantan (24 differences, both p below 1e-7), close to −0.189 and −0.160 in levels.
+- Fires and Singapore PM2.5: Spearman ρ = 0.90 (9 differences, p 0.001).
 
-The links survive differencing, so they are not driven by shared trends.
+The links hold in differences, so shared trends do not explain them.
 
-HAC (Newey–West, 2 lags) standard errors were also computed for H3. With n = 25 they are unreliable and are listed only for completeness.
+I also computed Newey-West standard errors with two lags for the rain and fire models. With 25 years they are unreliable, so they are listed only for completeness.
 
-## 4. Points not yet addressed
+## 4. Points still open
 
-- **Model PM2.5 directly.** With ten seasons, a seasonal PM2.5 model cannot take many covariates. A daily model (PM2.5 against lagged fires, rain and wind) is the natural next step.
-- **PM2.5 is not the same as haze.** The seasonal mean includes local pollution and humidity effects. Options: excess over a non-haze baseline, or days above a threshold.
+Modelling PM2.5 directly: ten seasons cannot carry a seasonal model with several covariates. A daily model of PM2.5 against lagged fires, rain and wind is the natural next step.
 
-## 5. Second reviewer (19 Oct 2026): break year and dependence
+PM2.5 is not the same thing as haze: the seasonal mean also contains local pollution and the effect of humidity. Two options are the excess over a non-haze baseline, or the number of days above a threshold.
 
-Numbers from `results/posthoc_checks.csv` and `results/posthoc_break_scan.csv`.
+## 5. Break year and dependence between years (19 Oct 2026)
 
-**Break year.** Moving the step from 2008 to 2021 one year at a time:
+Moving the break from 2008 to 2021, one year at a time:
 
-- The rain coefficient barely moves: Sumatra −0.177 to −0.225, Kalimantan −0.160 to −0.176. The drought-fire link does not depend on the break year.
-- The size of the drop does: Sumatra ×0.21 to ×0.51, Kalimantan ×0.53 to ×0.82, and in Kalimantan the step stops being significant for breaks from 2018 on. **The 77% and 47% figures are specific to a 2016 break and should be reported as such.**
-- 2016 gives the lowest AIC on both islands, but Kalimantan 2012 is close (AIC −12.03 against −12.17). The 2016 choice came from the literature before the final tests, not from this scan; picking the best year from the scan would overstate the fit.
+- The rain coefficient barely moves. It stays between −0.177 and −0.225 in Sumatra and between −0.160 and −0.176 in Kalimantan, so the link between drought and fire does not depend on the break year.
+- The size of the drop does depend on it. After the break, Sumatra has between 0.21 and 0.51 times the earlier detections, and Kalimantan between 0.53 and 0.82 times. In Kalimantan the step is no longer significant for any break from 2018 onward. The 77% and 47% figures belong to a 2016 break and should be reported that way.
+- A 2016 break gives the lowest AIC on both islands, but in Kalimantan a 2012 break is almost as good (−12.03 against −12.17). The year 2016 came from the literature before the final tests, not from this scan. Picking the best year from the scan would overstate the fit.
 
-**Step or trend.** With both a linear trend and the 2016 step in the model, the trend adds nothing (p 0.73 Sumatra, 0.72 Kalimantan) while the step stays (p 0.002, 0.04). With 25 years this leans towards a step but does not rule out a gradual change.
+Step or trend: with a linear trend and the 2016 step in the same model, the trend adds nothing (p 0.73 in Sumatra and 0.72 in Kalimantan), while the step stays significant (p 0.002 and 0.04). Twenty-five years point towards a step, but they cannot rule out a gradual decline.
 
-**Unit root with a break.** Zivot–Andrews with one lag gives p 0.07 (Sumatra, break 2019) and 0.05 (Kalimantan, break 2012). With no lag the Sumatra test fails to compute. At n = 25 the test is unstable; no conclusion drawn.
+Unit root with a break: the Zivot-Andrews test with one lag gives p 0.07 for Sumatra (break at 2019) and p 0.05 for Kalimantan (break at 2012). With no lag, the Sumatra test cannot be computed. At this sample size the test is unstable, and I draw no conclusion from it.
 
-**Dependence-aware bootstrap.** A moving-block bootstrap (blocks of 2, 3 and 4 years, 10,000 resamples) gives 95% intervals for the rain coefficient of about −0.23 to −0.13 (Sumatra) and −0.20 to −0.14 (Kalimantan), almost the same as the year-by-year bootstrap.
+Dependence between years: a moving-block bootstrap with blocks of two, three and four years (10,000 resamples each) gives 95% intervals for the rain coefficient of about −0.23 to −0.13 in Sumatra and −0.20 to −0.14 in Kalimantan. These are almost the same as the intervals from resampling single years.
 
-**VIIRS.** Still not run, so MODIS orbital drift is not ruled out.
+The VIIRS comparison has not been run yet, so drift in the MODIS satellite orbits is still not ruled out.
