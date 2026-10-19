@@ -54,3 +54,5 @@ Supported:
 4. Seasons with more fires are seasons with higher Singapore PM2.5 (ρ = 0.88, 10 years).
 
 Not supported: any statement about whether 2027 will be worse than 2026.
+
+**Note added 19 Oct 2026:** the 77% and 47% figures assume a break at 2016. For breaks from 2008 to 2021 the drop ranges from ×0.21 to ×0.51 (Sumatra) and ×0.53 to ×0.82 (Kalimantan); the rain coefficient barely moves. See `docs/2026-10-17_posthoc_reviewer_checks.md`, section 5.

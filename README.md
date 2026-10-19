@@ -4,7 +4,7 @@
 
 **Since 2016 Indonesia burns far less for the same amount of rain, but an El Niño summer still means a drier fire season, more fires and worse haze in Singapore.**
 
-The short paper is here: [docs/paper_climate_fire_singapore_haze_2026-10-16.pdf](docs/paper_climate_fire_singapore_haze_2026-10-16.pdf) (12 pages, 6 figures).
+The short paper is here: [docs/paper_climate_fire_singapore_haze_2026-10-16.pdf](docs/paper_climate_fire_singapore_haze_2026-10-16.pdf) (13 pages, 6 figures; revised 19 Oct 2026).
 
 ## Main numbers
 
@@ -15,12 +15,13 @@ All five planned tests hold after Holm correction for multiple testing.
 | El Niño (ONI, June to August) and Kalimantan rain (August to October) | r = −0.79 | 1979 to 2025 |
 | Indian Ocean Dipole and Sumatra rain, El Niño held fixed | 1.7 mm/day less rain per 1 °C | 1979 to 2025 |
 | Rain and fire detections, policy period held fixed | 1 mm/day less rain: 1.55× fires in Sumatra, 1.44× in Kalimantan | 2001 to 2025 |
-| Fires since 2016 at the same rain | about 77% fewer in Sumatra, 47% fewer in Kalimantan | 2001 to 2025 |
+| Fires since 2016 at the same rain, with the break set at 2016 | about 77% fewer in Sumatra, 47% fewer in Kalimantan (49% to 79% and 18% to 47% fewer for breaks from 2008 to 2021) | 2001 to 2025 |
 | Fire detections and Singapore PM2.5 | Spearman ρ = 0.88 | 2016 to 2025 (10 seasons) |
 
 ## Limits
 
 - The June to August indices come out in September. That is before September and October, which held 67% of August to October fire detections in 2001 to 2025, but it is after the season has started.
+- The size of the post-2015 drop depends on which year the break is put in. The rain effect does not.
 - The Singapore link rests on ten seasons and leaves out 2015.
 - I ran the tests on data I had already explored, so this is not a pre-registered study.
 - These are yearly correlations. They do not prove cause, and nothing here forecasts 2027.

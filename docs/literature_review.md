@@ -24,7 +24,7 @@ Purpose: separate what is already known from what this project might add. Each e
 - **Koplitz et al. (2016)**. Adjoint (sensitivity) modelling links exposure to source grid cells; much of the 2015 excess mortality came from South Sumatra fires.
 - **Djamil et al. (2017)**, EGU abstract. Singapore PSI in 2015 varied on 5-, 10- and 20-day cycles tied to large-scale moisture gyres that steer smoke.
 
-**Implication:** the established view is that **Sumatra dominates Singapore's smoke**. Our 2026 observation (Kalimantan about 77% of detections, yet record Singapore PM2.5) sits awkwardly with that and needs a transport explanation. This is a potential contribution, but it rests on near-real-time data for one season.
+**Implication:** the established view is that **Sumatra dominates Singapore's smoke**. Our 2026 observation (Kalimantan about 78% of detections, yet record Singapore PM2.5) sits awkwardly with that and needs a transport explanation. This is a potential contribution, but it rests on near-real-time data for one season.
 
 ## 4. Fire activity has fallen for a given drought (key confounder)
 
