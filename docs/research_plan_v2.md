@@ -135,4 +135,10 @@ All committed raw files are listed in `data/raw/SHA256SUMS.txt`.
 
 ## Deviations
 
-(none yet)
+### 2 Nov 2026 — clarification before Step 1, fixed by reviewer before any Step 1 or T1-T2 result was seen
+
+1. **T1 and T2 report two-sided p-values**, consistent with T3 to T6, together with the sign of the year coefficient.
+2. **WLS weights for model (a)** are the number of fire points (detections) in all retained events — that is, events igniting in Jul–Dec — that fall inside the island box, for that island and year.
+3. **Seasonal severity skewness** is `scipy.stats.skew(severity, bias=False)`, computed per island and per year over the events igniting in Jul–Dec of that year.
+4. **Step 1 "% change over 2002–2019"** is `100 × 17 × b ÷ fitted value in 2002 at the sample-mean rain`, where `b` is the year coefficient. For skewness the same formula is applied by analogy. The bootstrap 95 percent interval uses the same formula in each resample.
+5. **All events are built by `src/v2_step0.py:build_events`** with the validated configuration (8-neighbour, all detections). No separate event builder is written. The same function and the same raw data (`data/raw/firms` plus `data/raw/firms_v2`) are used for 2020–2025; `build_events` and `load_firms` were given optional `years`/`start`/`end` parameters with defaults that leave the Step 0 output byte-identical.

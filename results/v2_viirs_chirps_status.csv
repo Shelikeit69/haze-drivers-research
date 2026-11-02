@@ -1,0 +1,3 @@
+test,status,reason
+VIIRS,not run,FIRMS_MAP_KEY not set in the environment
+CHIRPS,not run,no working download
