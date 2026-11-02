@@ -10,9 +10,9 @@
 
 v2 的起因是 2026 年 10 月 28 日 Dr Sean Sloan（温哥华岛大学）的来信。Sloan 本人的工作（Sloan et al. 2022, *Communications Earth & Environment* 3:207, doi 10.1038/s43247-022-00522-6）按"火灾事件"（fire events）度量火的严重程度，用火季降雨作控制变量。他给了两条建议：(1) 用"火辐射功率总和"（FRP sum）代替火点计数来衡量火势；(2) 降雨不只取火季，往前推 1 到 2 个月累加，因为降雨的作用是非线性的而且跨越更长窗口。v2 同时复现了 Sloan 的事件方法在我们两个岛上的趋势分析。
 
-主要数字全部来自冻结的结论报告，没有额外估计或手算：
+主要数字全部来自 v2 结论说明，没有额外估计或手算：
 
-- **Step 0，Sloan 事件方法的复现。** 用他写死的事件定义，我们在自己的岛框里构造出的"严重事件"年序列，和他 Dryad 上发表的事件对应——苏门答腊 Pearson r = 0.9995，加里曼丹 r = 0.99998；18 个季节的总数相差不到 1.5%。
+- **Step 0，Sloan 事件方法的复现。** 用他写的事件定义，我们在自己的岛框里构造出的"严重事件"年序列，和他 Dryad 上发表的事件对应——苏门答腊 Pearson r = 0.9995，加里曼丹 r = 0.99998；18 个季节的总数相差不到 1.5%。还有两处差异值得说明：我们用的是 FIRMS Collection 6.1 而他是 6；我们的事件可以从 12 月延续到次年 1 月，而他的事件不会跨年。
 - **Q1，2002–2019 复现 Sloan 的趋势。** 两个岛的严重事件占比都在下降（苏门答腊 −11.7%，加里曼丹 −17.7%），方向上和 Sloan 四个区域的范围（−19 到 −27%）一致。非常严重事件的占比在加里曼丹下降了 −30.1%（落在他的范围内），但苏门答腊是 +2.3%（bootstrap 区间很宽）。
 - **Q2，延长到 2025 年。** 控制 Jul–Dec 降雨后，每年严重事件占比的系数苏门答腊为 −0.0038（p = 0.0028，17 年下降 −22.5%），加里曼丹为 −0.0041（p = 0.00004，下降 −21.5%）。T1–T6 共 6 项确认性检验在 Holm 校正后全部显著。
 - **Q3，用 Sloan 的两条建议重跑 v1 的雨火关系。** 不管用 FRP 总和还是检测数，不管降雨取火季还是从 6 月累加，结果都成立。Aug–Oct FRP 总和在降雨每少 1 毫米/日时是原来的 1.59 倍（苏门答腊）和 1.47 倍（加里曼丹）；按 Jun–Oct 总降雨算，每少 100 毫米时是 1.51 倍和 1.36 倍。两岛的 Aug–Oct FRP 总和和新加坡 Aug–Oct 平均 PM2.5 的 Spearman 相关系数是 0.93（2016–2025 年，10 个季节）。
@@ -57,22 +57,22 @@ v2：
 | 路径 | 内容 |
 |---|---|
 | `data/raw/` | 原始 API 返回文件，原样保存，只读不改，清洗全部在代码里做。用 `SHA256SUMS.txt` 可以检查文件有没有被改过（`cd data/raw && sha256sum -c SHA256SUMS.txt`）。 |
-| `data/external/sloan_dryad/` | 手动下载的 Sloan Dryad 事件表（doi 10.5061/dryad.msbcc2g1t）。zip 包 202 MB，超过 GitHub 上限，所以不进 git。 |
+| `data/external/sloan_dryad/` | 手动下载的 Sloan Dryad 事件表（doi 10.5061/dryad.msbcc2g1t）。zip 包 202 MB，超过 GitHub 上限，所以不进 git。`src/v2_step0.py` 固定从 `data/external/sloan_dryad/Dryad_Version_ofGDB/` 读取 CSV。 |
 | `src/fetch.py` | 下载原始数据（已存在的文件会跳过）。 |
 | `src/analyse.py` | 第 1 轮：计算 SOI、季节降雨和新加坡雾霾指标，做相关分析。 |
 | `src/analyse_r2.py` | 第 2 轮：用官方 ONI 交叉核对，加入印度洋偶极子。读取第 1 轮结果，需在 `analyse.py` 之后运行。 |
 | `src/analyse_r3.py` | 第 3 轮：换成 GPCP 降雨（与 ERA5 相互独立）重新检验。在 `analyse_r2.py` 之后运行，需要 `netCDF4`。 |
 | `src/fetch_firms.py` | 下载 NASA FIRMS MODIS 火点，Aug–Oct 窗口（v1）。密钥从 `FIRMS_MAP_KEY` 读取，不保存在任何文件里。 |
-| `src/fetch_firms_v2.py` | 下载 NASA FIRMS MODIS 火点，1 Jun–31 Jan 窗口、2002–2025（v2 事件构建需要边缘月份）。同样从 `FIRMS_MAP_KEY` 读密钥。 |
+| `src/fetch_firms_v2.py` | 下载 NASA FIRMS MODIS_SP 火点，每个季节的 1 Jun–31 Jul 和 1 Nov–次年 1 Jan（v2 事件构建需要的边缘月份；Aug–Oct 已从 `data/raw/firms/` 获得）。从 `FIRMS_MAP_KEY` 读密钥。 |
 | `src/analyse_r4.py` | 第 4 轮：干旱 → 火点 → 新加坡 PM2.5。在 `analyse_r3.py` 之后运行。 |
 | `src/plot_r4.py` | 绘制 `results/fires_r4.png`。 |
 | `src/confirmatory.py` | 按 `docs/research_plan_v1.md` 做主检验和稳健性检验。在 `analyse_r4.py` 之后运行，需要 `statsmodels`。 |
 | `src/fire_months.py` | 计算 8 至 10 月火点在各月的占比（论文里时间点的说法来自这里）。 |
 | `src/posthoc_checks.py` | 收到评审意见后补做的检验（负二项模型、一阶差分、平稳性），不在冻结的研究计划内。 |
 | `src/plot.py` | 绘制 `results/enso_haze.png`。 |
-| `src/v2_step0.py` | 用 Sloan 定义从 FIRMS 检测构建事件，并和 Dryad 表核对。**需要** Sloan 的 Dryad 数据放在 `data/external/sloan_dryad/`。 |
+| `src/v2_step0.py` | 用 Sloan 事件定义从 FIRMS 检测点构建事件，并和 Dryad 表核对。固定从 `data/external/sloan_dryad/Dryad_Version_ofGDB/` 读 Sloan 的 CSV。 |
 | `src/v2_q3.py` | 用 Sloan 的两条建议重跑 v1 的雨火关系（FRP 总和 + 累加降雨）。直接用仓库里已有的数据，不需要 Dryad。 |
-| `src/v2_stage2.py` | v2 Step 1 复现、T1–T2 确认性检验、Holm 校正、稳健性检验和探索性分析。通过 `v2_step0` 的事件构建用到 Dryad 数据。 |
+| `src/v2_stage2.py` | v2 Step 1 复现、T1–T2 确认性检验、Holm 校正、稳健性检验和探索性分析。通过 `v2_step0.build_events` 在已经下载好的 FIRMS 数据上构建事件；不读 Dryad 数据。 |
 | `src/v2_figures.py` | 画 Step 0 复现图，供 `docs/2026-11-02_v2_conclusions.md` 配图使用。只读 `results/` 目录里的 CSV，不重跑任何模型。 |
 | `results/` | 当前代码的输出。要更新就重跑代码，不要手改。 |
 | `docs/` | 论文 PDF、冻结的研究计划（v1 和 v2）、文献综述、v2 的结论和结果说明，以及每轮 v1 分析的记录。 |
@@ -96,29 +96,36 @@ python src/posthoc_checks.py results
 
 v2，在 v1 之后跑（v2 的事件构建复用 v1 的 FIRMS 火点文件）：
 
-1. **Dryad 数据（手动下载，202 MB，超过 GitHub 上限）。** 从 Sloan 的 Dryad 仓库（doi 10.5061/dryad.msbcc2g1t）下载 `doi_10_5061_dryad_msbcc2g1t__v20220828.zip`，核对 SHA256，解压到 `data/external/sloan_dryad/`：
+1. **Dryad 数据（手动下载，202 MB，超过 GitHub 上限）。** 浏览器打开 `https://datadryad.org/dataset/doi:10.5061/dryad.msbcc2g1t`，点 "Download full dataset"。核对 zip 包的 SHA256：
 
    ```
-   curl -LO https://datadryad.org/api/v2/files/.../download
    sha256sum doi_10_5061_dryad_msbcc2g1t__v20220828.zip
    # 应为: 0b76226376a13cc8212df0f07041597cd169fba9c7cbdcd8cb6541e80a789e3b
-   mkdir -p data/external/sloan_dryad
-   unzip doi_10_5061_dryad_msbcc2g1t__v20220828.zip -d data/external/sloan_dryad
    ```
 
-2. **FIRMS 密钥（从环境变量读取，绝不写入任何文件）。** 在 shell 里设置 `FIRMS_MAP_KEY`。`src/fetch_firms_v2.py` 需要它。`src/v2_step0.py` 和 `src/v2_stage2.py` 读 v2 火点文件但不调用 FIRMS API。
+   外层 zip 里还有一个 `Dryad_Version_ofGDB.zip`，它才是 `src/v2_step0.py` 固定从 `data/external/sloan_dryad/Dryad_Version_ofGDB/` 读取的 CSV 所在：
+
+   ```
+   mkdir -p data/external/sloan_dryad
+   unzip doi_10_5061_dryad_msbcc2g1t__v20220828.zip -d data/external/sloan_dryad
+   cd data/external/sloan_dryad
+   unzip Dryad_Version_ofGDB.zip
+   cd /workspace
+   ```
+
+2. **FIRMS 密钥（从环境变量读取，绝不写入任何文件）。** 在 shell 里设置 `FIRMS_MAP_KEY`。`src/fetch_firms_v2.py` 需要它。v2 分析脚本（`v2_step0.py`、`v2_stage2.py`）从磁盘读已经下载好的 FIRMS 文件，不调用 FIRMS API。
 
 3. **脚本运行顺序：**
 
    ```
    python src/fetch_firms_v2.py data/raw/firms_v2
-   python src/v2_step0.py data/raw data/external/sloan_dryad results
    python src/v2_q3.py data/raw results
-   python src/v2_stage2.py data/raw results data/external/sloan_dryad
+   python src/v2_step0.py data/raw results
+   python src/v2_stage2.py data/raw results
    python src/v2_figures.py results
    ```
 
-   `v2_q3.py` 不依赖 Dryad 数据，只要 v1 火点到位就可以提前跑。`v2_step0.py` 和 `v2_stage2.py` 都需要 Dryad 表；`v2_stage2.py` 还需要 `fetch_firms_v2.py` 下载的 v2 火点。`v2_figures.py` 只需要前面脚本产出的 `results/` 文件。
+   `v2_q3.py` 不依赖 Dryad 数据，只要 v1 火点到位就可以提前跑。`v2_step0.py` 从 `data/external/sloan_dryad/Dryad_Version_ofGDB/` 读 Sloan 的 CSV。`v2_stage2.py` 不读 Dryad 数据，它用 `v2_step0.build_events` 在 `data/raw/firms` 和 `data/raw/firms_v2` 里已有的 FIRMS 检测点上构建事件。`v2_figures.py` 只需要前面脚本产出的 `results/` 文件。
 
 需要 Python 3，以及 pandas、numpy、scipy、matplotlib、netCDF4、statsmodels。
 
@@ -143,8 +150,8 @@ v2，在 v1 之后跑（v2 的事件构建复用 v1 的 FIRMS 火点文件）：
 | 偶极子模态指数 DMI（HadISST1.1；2026 年 7 月 25 日生成，最近几个月为初步值） | NOAA PSL `psl.noaa.gov/gcos_wgsp/Timeseries/Data/dmi.had.long.data`，由 Toni 手动下载，保存为 `noaa_psl_dmi_had_long.data` | 1870 年 1 月至 2026 年 5 月 | NOAA PSL；HadISST 为英国气象局数据，需署名 |
 | GPCP v2.3 月降水，2.5°（卫星 + 雨量站；2021 年 11 月起为临时版） | NOAA PSL `downloads.psl.noaa.gov/Datasets/gpcp/precip.mon.mean.nc`，由 Toni 手动下载，保存为 `noaa_psl_gpcp_v2.3_precip.mon.mean.nc` | 1979 年 1 月至 2026 年 6 月 | NOAA PSL；引用 Adler et al. 2003（文件内有引文） |
 | MODIS 火点，Aug–Oct 2001–2025 和近实时 2026（v1） | NASA FIRMS 区域 API，范围东经 100 至 116.5 度、南纬 5 度至北纬 2.3 度，2026 年 10 月 16 日用 Toni 的 MAP_KEY 下载，存放在 `data/raw/firms/` | 2001 至 2025 年每年 8 月 1 日至 10 月 31 日；2026 年 8 月 1 日至 10 月 15 日 | NASA 开放数据；引用 FIRMS |
-| MODIS 火点，1 Jun–31 Jan 2002–2025（v2 事件构建） | NASA FIRMS 区域 API，范围同上，2026 年 11 月 2 日下载，存放在 `data/raw/firms_v2/` | 2002 年 6 月 1 日至 2026 年 1 月 31 日 | NASA 开放数据；引用 FIRMS |
-| Sloan 事件表，2002–2019 | Dryad doi 10.5061/dryad.msbcc2g1t，版本 2022 年 8 月 28 日，手动下载 | Sloan 省份级事件和检测点，本地按我们的岛框筛选 | 去 Dryad 页面查 |
+| MODIS 火点，每个季节 1 Jun–31 Jul 和 1 Nov–次年 1 Jan（v2 事件构建的边缘月份；这些季节的 Aug–Oct 已从 `data/raw/firms/` 获得） | NASA FIRMS 区域 API，范围同上，2026 年 11 月 2 日下载，存放在 `data/raw/firms_v2/` | 2002 至 2025 年各季节的 6 月 1 日至 7 月 31 日，以及 11 月 1 日至次年 1 月 31 日；Aug–Oct 来自 `data/raw/firms/` | NASA 开放数据；引用 FIRMS |
+| Sloan 火灾事件检测点及引燃时间，2002–2019 | Dryad doi 10.5061/dryad.msbcc2g1t，版本 2022 年 8 月 28 日，手动下载 | 印度尼西亚的火灾事件检测点和引燃时间，2002 至 2019 年 | 去 Dryad 页面查 |
 | 分区 PSI 和 24 小时 PM2.5，逐小时 | NEA，经 data.gov.sg 实时 API（`/v2/real-time/api/psi?date=`） | 2016 至 2025 年每年 8 月 1 日至 10 月 31 日；2026 年 8 月 1 日至 10 月 15 日 | Singapore Open Data Licence；注明来源，不得暗示官方身份 |
 
 ERA5 取点（请求的纬度、经度；Open-Meteo 会对齐到最近的网格，实际网格记录在每个 JSON 里）：
