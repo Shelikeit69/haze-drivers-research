@@ -61,7 +61,7 @@ ISLAND_VEC = np.vectorize(island, otypes=[object])
 
 
 # ---------- FIRMS detections ----------
-def load_firms():
+def load_firms(start=START, end=END):
     frames = []
     for folder in (os.path.join(RAW, "firms"), os.path.join(RAW, "firms_v2")):
         for p in sorted(glob.glob(os.path.join(folder, "MODIS_SP_*.csv"))):
@@ -73,7 +73,7 @@ def load_firms():
     keep = ["latitude", "longitude", "acq_date", "frp", "type", "satellite"]
     f = f[keep].drop_duplicates().reset_index(drop=True)
     f["acq_date"] = pd.to_datetime(f["acq_date"])
-    f = f[(f["acq_date"] >= START) & (f["acq_date"] <= END)].reset_index(drop=True)
+    f = f[(f["acq_date"] >= start) & (f["acq_date"] <= end)].reset_index(drop=True)
     f["island"] = ISLAND_VEC(f["latitude"].to_numpy(), f["longitude"].to_numpy())
     return f
 
@@ -92,7 +92,7 @@ def neighbours(adjacency):
     return [(0, 0), (1, 0), (-1, 0), (0, 1), (0, -1)]
 
 
-def build_events(firms, adjacency, type0_only=False):
+def build_events(firms, adjacency, type0_only=False, years=YEARS, start=START):
     """Connected components of detections linked in space (cell adjacency) and time (4 days)."""
     d = firms[firms["island"] != "other"].copy()
     if type0_only:
@@ -118,7 +118,7 @@ def build_events(firms, adjacency, type0_only=False):
         size[ra] += size[rb]
 
     cx, cy = grid_cells(d["latitude"].to_numpy(), d["longitude"].to_numpy())
-    date_ord = (d["acq_date"] - START).dt.days.to_numpy()
+    date_ord = (d["acq_date"] - start).dt.days.to_numpy()
     offsets = neighbours(adjacency)
 
     for isl in ISLANDS:
@@ -157,7 +157,7 @@ def build_events(firms, adjacency, type0_only=False):
     ev["severity"] = ev["frp_sum"] * (ev["duration"] + 1)
     ev["year"] = ev["ignition"].dt.year
     ev["month"] = ev["ignition"].dt.month
-    ev = ev[(ev["year"].isin(YEARS)) & (ev["month"].between(7, 12))]
+    ev = ev[(ev["year"].isin(years)) & (ev["month"].between(7, 12))]
     return ev.reset_index(drop=True), len(d)
 
 
