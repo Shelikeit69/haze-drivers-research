@@ -12,6 +12,7 @@ Outputs:
   results/v2_step1_models.csv       Step 1 (a) severe/very-severe and (b) skewness, 2002-2019
   results/v2_step1_yearly.csv       yearly inputs for Step 1
   results/v2_t1t2_primary.csv       T1/T2 2002-2025 WLS, p-values, bootstrap, LOO
+  results/v2_t1t2_residuals.csv    T1/T2 WLS mean residuals, 2002-2015 vs 2016-2025
   results/v2_t1t2_robustness.csv    T1/T2 robustness (post2016 step, block bootstrap, LOO, Aqua)
   results/v2_t1t2_yearly.csv        yearly inputs for T1/T2
   results/v2_holm.csv               Holm correction over T1-T6
@@ -329,6 +330,7 @@ def run_t1t2_robustness(yearly, events_all):
 
 # ---------- Holm ----------
 def holm():
+    from statsmodels.stats.multitest import multipletests
     q3 = pd.read_csv(os.path.join(RES, "v2_q3_results.csv"))
     q3p = q3[q3["kind"] == "primary"][["id", "p_raw"]].copy()
     q3p.columns = ["id", "p_raw"]
@@ -338,9 +340,8 @@ def holm():
     p = p.sort_values("p_raw").reset_index(drop=True)
     m = len(p)
     p["rank"] = np.arange(1, m + 1)
-    p["holm_p"] = np.minimum(1.0, (m - p["rank"] + 1) * p["p_raw"])
-    # enforce monotonicity (holm p is non-decreasing in rank)
-    p["holm_p"] = p["holm_p"][::-1].cummin()[::-1]
+    reject, holm_p, _, _ = multipletests(p["p_raw"].to_numpy(float), alpha=0.05, method="holm")
+    p["holm_p"] = holm_p
     p["significant_0.05"] = p["holm_p"] < 0.05
     return p
 
@@ -417,19 +418,26 @@ def make_plots(yearly, events):
     fig.savefig(os.path.join(RES, "v2_t1t2_trend.png"), dpi=140)
     plt.close(fig)
 
-    # exploratory: FRP sum vs Jul-Dec rain, scatter + lowess-ish smoother
+    # exploratory: FRP sum vs Jul-Dec rain, scatter + quadratic + LOWESS smoothers
+    from statsmodels.nonparametric.smoothers_lowess import lowess
     fig, axes = plt.subplots(1, 2, figsize=(11, 4.5))
     for ax, isl in zip(axes, ISLANDS):
         d = yearly[yearly["island"] == isl]
-        ax.scatter(d["rain_juldec"], d["frp_sum"], s=30)
-        # simple loess via polynomial order 2
+        ax.scatter(d["rain_juldec"], d["frp_sum"], s=30, label="observed")
+        x = d["rain_juldec"].to_numpy(float)
+        y = d["frp_sum"].to_numpy(float)
+        order = np.argsort(x)
+        xs = x[order]
+        # quadratic smoother (reference)
         try:
-            x = d["rain_juldec"].to_numpy(float)
-            y = d["frp_sum"].to_numpy(float)
-            order = np.argsort(x)
-            xs = x[order]
             coef = np.polyfit(x, y, 2)
             ax.plot(xs, np.polyval(coef, xs), color="red", label="quadratic smoother")
+        except Exception:
+            pass
+        # LOWESS smoother (frac=2/3)
+        try:
+            lw = lowess(y, x, frac=2.0 / 3.0, return_sorted=True)
+            ax.plot(lw[:, 0], lw[:, 1], color="blue", label="LOWESS (frac=2/3)")
         except Exception:
             pass
         ax.set_title(f"{isl}: Jul-Dec FRP sum vs rain")
@@ -439,6 +447,32 @@ def make_plots(yearly, events):
     fig.tight_layout()
     fig.savefig(os.path.join(RES, "v2_exploratory_frp_rain.png"), dpi=140)
     plt.close(fig)
+
+
+# ---------- T1/T2 residual diagnostics (descriptive, no test) ----------
+def t1t2_residuals(yearly):
+    """Mean WLS residuals of the T1/T2 severe-share model, split at 2016.
+
+    Computes, per island, the mean residual for 2002-2015 and 2016-2025, both
+    unweighted and weighted by fire_points. Descriptive only; no significance
+    test is performed and the main results are not changed.
+    """
+    rows = []
+    for tid, isl in zip(["T1", "T2"], ISLANDS):
+        d = yearly[yearly["island"] == isl].copy()
+        m, sub = fit_wls(d, "prop_severe", ["rain_juldec", "year0"], "fire_points")
+        sub = sub.copy()
+        sub["resid"] = m.resid
+        sub["year"] = d.loc[sub.index, "year"].to_numpy()
+        for label, mask in [("2002-2015", sub["year"] <= 2015),
+                            ("2016-2025", sub["year"] >= 2016)]:
+            g = sub[mask]
+            rows.append({
+                "id": tid, "island": isl, "period": label, "n": int(len(g)),
+                "mean_resid_unweighted": float(g["resid"].mean()),
+                "mean_resid_weighted": float(np.average(g["resid"], weights=g["fire_points"])),
+            })
+    return pd.DataFrame(rows)
 
 
 def main():
@@ -462,6 +496,10 @@ def main():
     t1t2 = run_t1t2(yearly)
     t1t2.to_csv(os.path.join(RES, "v2_t1t2_primary.csv"), index=False)
     yearly.to_csv(os.path.join(RES, "v2_t1t2_yearly.csv"), index=False)
+
+    # T1/T2 residual diagnostics (descriptive)
+    res = t1t2_residuals(yearly)
+    res.to_csv(os.path.join(RES, "v2_t1t2_residuals.csv"), index=False)
 
     # T1/T2 robustness
     print("T1/T2 robustness...")
@@ -493,6 +531,8 @@ def main():
     print(step1.to_string(index=False))
     print("\n=== T1/T2 ===")
     print(t1t2.to_string(index=False))
+    print("\n=== T1/T2 residuals (descriptive) ===")
+    print(res.to_string(index=False))
     print("\n=== T1/T2 robustness ===")
     print(rob.to_string(index=False))
     print("\n=== Holm ===")
