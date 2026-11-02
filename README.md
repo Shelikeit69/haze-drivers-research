@@ -2,9 +2,9 @@
 
 [中文版](README.zh-CN.md)
 
-**Since 2016 Indonesia burns far less for the same amount of rain, but an El Niño summer still means a drier fire season, more fires and worse haze in Singapore.**
+**Drier seasons bring more fire on Sumatra and Kalimantan. For the same rain, fire since 2016 is lower and a smaller share of fire events is severe, and the decline continues to 2025.**
 
-The short paper is here: [docs/paper_climate_fire_singapore_haze_2026-10-16.pdf](docs/paper_climate_fire_singapore_haze_2026-10-16.pdf) (13 pages, 6 figures; revised 19 Oct 2026).
+Latest results (v2, 2 Nov 2026): [docs/2026-11-02_v2_conclusions.md](docs/2026-11-02_v2_conclusions.md)
 
 ## v2 (November 2026)
 
@@ -19,7 +19,13 @@ The main numbers, all drawn from the conclusions note, are:
 
 Full write-up: [docs/2026-11-02_v2_conclusions.md](docs/2026-11-02_v2_conclusions.md). Frozen plan: [docs/research_plan_v2.md](docs/research_plan_v2.md).
 
-## Main numbers (v1)
+## v1 (October 2026)
+
+Since 2016 Indonesia burns far less for the same amount of rain, but an El Niño summer still means a drier fire season, more fires and worse haze in Singapore.
+
+The short paper is here: [docs/paper_climate_fire_singapore_haze_2026-10-16.pdf](docs/paper_climate_fire_singapore_haze_2026-10-16.pdf) (13 pages, 6 figures; revised 19 Oct 2026).
+
+### Main numbers
 
 All five planned tests hold after Holm correction for multiple testing.
 
@@ -33,6 +39,14 @@ All five planned tests hold after Holm correction for multiple testing.
 
 ## Limits
 
+v2:
+
+- The evidence is correlational, from 24 seasons (10 for the Singapore link).
+- The plan was written after the Aug–Oct counts and FRP totals had been seen, so it is not a pre-registration (see the plan's honesty statement).
+- Rain comes from GPCP at 2.5 degrees, three cells per island. The CHIRPS check and the VIIRS check in the plan were not run.
+- Rain enters the models linearly. A LOWESS curve of fire energy against Jul–Dec rain falls gradually and flattens at high rain, with no sharp threshold, but no threshold test was run.
+- Sumatra's very severe share is the one replication result that does not match Sloan's direction.
+
 v1:
 
 - The June to August indices come out in September. That is before September and October, which held 67% of August to October fire detections in 2001 to 2025, but it is after the season has started.
@@ -42,59 +56,37 @@ v1:
 - These are yearly correlations. They do not prove cause, and nothing here forecasts 2027.
 - This is a personal project and has not been peer reviewed.
 
-v2:
-
-- The evidence is correlational, from 24 seasons (10 for the Singapore link).
-- The plan was written after the Aug–Oct counts and FRP totals had been seen, so it is not a pre-registration (see the plan's honesty statement).
-- Rain comes from GPCP at 2.5 degrees, three cells per island. The CHIRPS check and the VIIRS check in the plan were not run.
-- Rain enters the models linearly. A LOWESS curve of fire energy against Jul–Dec rain falls gradually and flattens at high rain, with no sharp threshold, but no threshold test was run.
-- Sumatra's very severe share is the one replication result that does not match Sloan's direction.
-
 It is separate from my AI4Climate entry `sg-haze-window`, and nothing here feeds that product.
 
 ## Layout
 
 | Path | What it is |
 |---|---|
-| `data/raw/` | Raw API responses, saved unchanged. Treat them as read-only: all cleaning happens in code. `SHA256SUMS.txt` lets you check that nothing changed (`cd data/raw && sha256sum -c SHA256SUMS.txt`). |
 | `data/external/sloan_dryad/` | Manual copy of Sloan et al.'s Dryad event tables (doi 10.5061/dryad.msbcc2g1t). Ignored by git because the zip is above GitHub's file size limit. `src/v2_step0.py` reads CSVs from the fixed subpath `data/external/sloan_dryad/Dryad_Version_ofGDB/`. |
+| `src/fetch_firms_v2.py` | Downloads NASA FIRMS MODIS_SP fire detections for 1 Jun to 31 Jul and 1 Nov to 31 Jan of the next year, 2002 to 2025 (edge months needed for event construction; Aug to Oct comes from `data/raw/firms/`). Reads the key from `FIRMS_MAP_KEY`. |
+| `src/v2_step0.py` | Builds Sloan-style fire events from FIRMS detections and validates them against the Dryad tables. Reads Sloan's Dryad CSVs from the fixed path `data/external/sloan_dryad/Dryad_Version_ofGDB/`. |
+| `src/v2_q3.py` | v1 rain-fire link re-run with Sloan's suggestions (FRP sum, cumulative rain). Runs on data already in the repo. |
+| `src/v2_stage2.py` | v2 Step 1 replication, T1–T2 confirmatory tests, Holm correction, robustness checks, exploratory analyses. Builds events via `v2_step0.build_events` on already-downloaded FIRMS data; does not read the Dryad data. |
+| `src/v2_figures.py` | Draws the Step 0 replication figure used in `docs/2026-11-02_v2_conclusions.md`. Reads only `results/` files; does not re-run any model. |
+| `data/raw/` | Raw API responses, saved unchanged. Treat them as read-only: all cleaning happens in code. `SHA256SUMS.txt` lets you check that nothing changed (`cd data/raw && sha256sum -c SHA256SUMS.txt`). |
 | `src/fetch.py` | Downloads the raw data and skips files that already exist. |
 | `src/analyse.py` | Round 1. Builds the SOI, seasonal rain and Singapore haze metrics, then runs the correlations. |
 | `src/analyse_r2.py` | Round 2. Cross-checks with the official ONI and adds the Indian Ocean Dipole. Reads round 1 results, so run it after `analyse.py`. |
 | `src/analyse_r3.py` | Round 3. Repeats the tests with GPCP rain, which does not depend on ERA5. Run after `analyse_r2.py`. Needs `netCDF4`. |
 | `src/fetch_firms.py` | Downloads NASA FIRMS MODIS fire detections for the Aug–Oct window (v1). It reads the key from `FIRMS_MAP_KEY` and never stores it. |
-| `src/fetch_firms_v2.py` | Downloads NASA FIRMS MODIS_SP fire detections for 1 Jun to 31 Jul and 1 Nov to 31 Jan of the next year, 2002 to 2025 (edge months needed for event construction; Aug to Oct comes from `data/raw/firms/`). Reads the key from `FIRMS_MAP_KEY`. |
 | `src/analyse_r4.py` | Round 4. Drought, fires and Singapore PM2.5. Run after `analyse_r3.py`. |
 | `src/plot_r4.py` | Draws `results/fires_r4.png`. |
 | `src/confirmatory.py` | Primary tests and robustness checks from `docs/research_plan_v1.md`. Run after `analyse_r4.py`. Needs `statsmodels`. |
 | `src/fire_months.py` | Monthly share of August to October fire detections. The paper's timing statement comes from this. |
 | `src/posthoc_checks.py` | Post-hoc checks after reviewer feedback (negative binomial, first differences, stationarity). Outside the frozen plan. |
 | `src/plot.py` | Draws `results/enso_haze.png`. |
-| `src/v2_step0.py` | Builds Sloan-style fire events from FIRMS detections and validates them against the Dryad tables. Reads Sloan's Dryad CSVs from the fixed path `data/external/sloan_dryad/Dryad_Version_ofGDB/`. |
-| `src/v2_q3.py` | v1 rain-fire link re-run with Sloan's suggestions (FRP sum, cumulative rain). Runs on data already in the repo. |
-| `src/v2_stage2.py` | v2 Step 1 replication, T1–T2 confirmatory tests, Holm correction, robustness checks, exploratory analyses. Builds events via `v2_step0.build_events` on already-downloaded FIRMS data; does not read the Dryad data. |
-| `src/v2_figures.py` | Draws the Step 0 replication figure used in `docs/2026-11-02_v2_conclusions.md`. Reads only `results/` files; does not re-run any model. |
 | `results/` | Output of the current code. Rerun the code instead of editing these files. |
 | `docs/` | The paper (PDF), the frozen research plans (v1 and v2), the literature review, the v2 conclusion and result notes, and one note per v1 analysis round. |
 | `LICENSE` | MIT licence for the code and text written here. Raw data keep their own licences (see below). |
 
 ## Reproduce
 
-v1:
-
-```
-python src/analyse.py data/raw results
-python src/analyse_r2.py data/raw results
-python src/analyse_r3.py data/raw results
-python src/analyse_r4.py data/raw results
-python src/plot_r4.py results
-python src/confirmatory.py results
-python src/fire_months.py data/raw results
-python src/plot.py results
-python src/posthoc_checks.py results
-```
-
-v2, run after v1 (the v2 event builder reuses the v1 FIRMS files):
+v2 uses v1 output files that are already committed to the repo, so you do not need to run v1 first unless you want to rebuild those files from scratch. The pre-submitted v1 files that v2 scripts read from `results/` are: `gpcp_cells_r3.csv`, `fire_counts_r4.csv`, and `yearly_r4.csv`. v2 scripts also read the GPCP netCDF file and both v1 and v2 FIRMS CSVs from `data/raw/`.
 
 1. **Dryad data (manual download, 202 MB, above GitHub's file limit).** Open `https://datadryad.org/dataset/doi:10.5061/dryad.msbcc2g1t` in a browser and click "Download full dataset". Check the SHA256 of the zip:
 
@@ -125,7 +117,21 @@ v2, run after v1 (the v2 event builder reuses the v1 FIRMS files):
    python src/v2_figures.py results
    ```
 
-   `v2_q3.py` does not need the Dryad data and can be run any time after the v1 FIRMS files are in place. `v2_step0.py` reads Sloan's Dryad CSVs from `data/external/sloan_dryad/Dryad_Version_ofGDB/`. `v2_stage2.py` does not read the Dryad data; it builds events with `v2_step0.build_events` on FIRMS detections already present in `data/raw/firms` and `data/raw/firms_v2`. `v2_figures.py` needs only the `results/` files produced by the earlier scripts.
+   `v2_q3.py` does not need the Dryad data. `v2_step0.py` reads Sloan's Dryad CSVs from `data/external/sloan_dryad/Dryad_Version_ofGDB/`. `v2_stage2.py` does not read the Dryad data; it builds events with `v2_step0.build_events` on FIRMS detections already present in `data/raw/firms` and `data/raw/firms_v2`. `v2_figures.py` needs only the `results/` files produced by the earlier scripts.
+
+v1, run only if you want to rebuild v2's inputs from scratch:
+
+```
+python src/analyse.py data/raw results
+python src/analyse_r2.py data/raw results
+python src/analyse_r3.py data/raw results
+python src/analyse_r4.py data/raw results
+python src/plot_r4.py results
+python src/confirmatory.py results
+python src/fire_months.py data/raw results
+python src/plot.py results
+python src/posthoc_checks.py results
+```
 
 You need Python 3 with pandas, numpy, scipy, matplotlib, netCDF4 and statsmodels.
 
@@ -145,13 +151,13 @@ Files in `data/raw/` are copies of third-party data. The MIT licence does not co
 
 | Data | Source | Coverage in this repo | Licence |
 |---|---|---|---|
+| Sloan et al. fire-event detections and ignitions, 2002–2019 | Dryad doi 10.5061/dryad.msbcc2g1t, version of 28 Aug 2022, downloaded manually | Fire-event detections and ignitions for Indonesia, 2002 to 2019 | Check the Dryad page |
+| MODIS active-fire detections, 1 Jun–31 Jul and 1 Nov–31 Jan 2002–2025 (edge months for v2 event construction; Aug–Oct for these seasons comes from `data/raw/firms/`) | NASA FIRMS area API, same box, downloaded 2 Nov 2026 (saved under `data/raw/firms_v2/`) | 1 Jun to 31 Jul and 1 Nov to 31 Jan of the next year, for the 2002 to 2025 seasons; Aug to Oct comes from `data/raw/firms/` | NASA open data; cite FIRMS |
 | Daily mean sea-level pressure and daily precipitation (ERA5 reanalysis) | Open-Meteo Historical Weather API | 1 Jan 1950 to 10 Oct 2026, 8 points (listed below) | CC BY 4.0; free for non-commercial use |
 | ONI (CPC, ERSST v6, 3-month running mean; the file says "as of 09/7/2026") | NOAA PSL `psl.noaa.gov/data/correlation/oni.data`, downloaded by Toni and saved as `noaa_psl_oni.data` | Jan 1950 to Aug 2026 (centre month) | US government data |
 | Dipole Mode Index (HadISST1.1; created 25 Jul 2026; recent months are preliminary) | NOAA PSL `psl.noaa.gov/gcos_wgsp/Timeseries/Data/dmi.had.long.data`, downloaded by Toni and saved as `noaa_psl_dmi_had_long.data` | Jan 1870 to May 2026 | NOAA PSL; HadISST is Met Office data and needs credit |
 | GPCP v2.3 monthly precipitation, 2.5° grid (satellite plus rain gauge; interim from Nov 2021) | NOAA PSL `downloads.psl.noaa.gov/Datasets/gpcp/precip.mon.mean.nc`, downloaded by Toni and saved as `noaa_psl_gpcp_v2.3_precip.mon.mean.nc` | Jan 1979 to Jun 2026 | NOAA PSL; cite Adler et al. 2003 (citation in the file) |
 | MODIS active-fire detections, Aug–Oct 2001–2025 and near-real-time 2026 | NASA FIRMS area API, box 100 to 116.5°E and 5°S to 2.3°N, downloaded 16 Oct 2026 with Toni's MAP_KEY (v1, saved under `data/raw/firms/`) | 1 Aug to 31 Oct 2001–2025; 1 Aug to 15 Oct 2026 | NASA open data; cite FIRMS |
-| MODIS active-fire detections, 1 Jun–31 Jul and 1 Nov–31 Jan 2002–2025 (edge months for v2 event construction; Aug–Oct for these seasons comes from `data/raw/firms/`) | NASA FIRMS area API, same box, downloaded 2 Nov 2026 (saved under `data/raw/firms_v2/`) | 1 Jun to 31 Jul and 1 Nov to 31 Jan of the next year, for the 2002 to 2025 seasons; Aug to Oct comes from `data/raw/firms/` | NASA open data; cite FIRMS |
-| Sloan et al. fire-event detections and ignitions, 2002–2019 | Dryad doi 10.5061/dryad.msbcc2g1t, version of 28 Aug 2022, downloaded manually | Fire-event detections and ignitions for Indonesia, 2002 to 2019 | Check the Dryad page |
 | Hourly PSI and 24-hour PM2.5 by region | NEA via the data.gov.sg real-time API (`/v2/real-time/api/psi?date=`) | 1 Aug to 31 Oct 2016–2025; 1 Aug to 15 Oct 2026 | Singapore Open Data Licence; credit the source and do not imply official status |
 
 ERA5 points, as requested latitude and longitude. Open-Meteo snaps each one to the nearest grid cell, and each JSON file records the cell it used.
