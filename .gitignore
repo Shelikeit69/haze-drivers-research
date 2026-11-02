@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 *.log
+
+# Plan v2: Sloan et al. Dryad data, too large for GitHub (see docs/v2_handoff.md)
+data/external/
