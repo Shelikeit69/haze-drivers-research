@@ -25,7 +25,9 @@ This file lists what is done and what is left under `docs/research_plan_v2.md`. 
 ## Small fixes found in review
 
 - `results/v2_q3_results.csv`: the `factor_unit` column is filled for the "context post2016 step" rows, where it does not apply. Fix the labelling in `src/v2_q3.py` and rerun; numbers must not change.
+  - Done in `v2-step0`: `factor_unit` is now blank for the context rows. The rerun left every numeric column unchanged.
 - Nine files in `data/raw/firms_v2/` are empty (header only), all in wet-season windows (listed by any script that checks `df.empty`). Confirm with the FIRMS API documentation or a re-request that an empty response means no detections, not missing data, and record the answer in the results note.
+  - Done in `v2-step0`: the nine files are listed in `results/v2_step0_empty_firms_v2.csv`. The FIRMS missing-data table has no MODIS Terra or Aqua date in those windows, so the files mean zero detections, not missing data. See `docs/2026-11-02_v2_step0_validation.md` section 7.
 
 ## Rules
 

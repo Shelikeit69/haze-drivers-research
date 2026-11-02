@@ -1,0 +1,3 @@
+scenario,detections_used,island,years,r_events,r_severe,r_very_severe,events_ours,events_dryad,events_ratio,severe_ours,severe_dryad,severe_ratio,median_severity_ours,median_severity_dryad,max_abs_yearly_median_diff,pass_r,pass_events_totals,pass_severe_totals,pass_island,pass_scenario
+"8-neighbour, all detections",869725,sumatra,2002-2019,0.9999691064482178,0.9995451541820558,0.999326358435259,123046,121306,1.0143438906566864,32588,32498,1.0027694011939197,23.2,23.5,2.0000003999999976,True,True,True,True,True
+"8-neighbour, all detections",869725,kalimantan,2002-2019,0.9999895557653066,0.9999758618099477,0.999921450169705,171631,169286,1.0138522972957007,54264,53838,1.0079126267691965,28.5,28.7999992,0.700000799999998,True,True,True,True,True
