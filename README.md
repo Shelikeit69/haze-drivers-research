@@ -110,7 +110,7 @@ v2, run after v1 (the v2 event builder reuses the v1 FIRMS files):
    unzip doi_10_5061_dryad_msbcc2g1t__v20220828.zip -d data/external/sloan_dryad
    cd data/external/sloan_dryad
    unzip Dryad_Version_ofGDB.zip
-   cd /workspace
+   cd ../../..
    ```
 
 2. **FIRMS key (read from environment, never written to disk).** Set `FIRMS_MAP_KEY` in your shell. `src/fetch_firms_v2.py` needs it. The v2 analysis scripts (`v2_step0.py`, `v2_stage2.py`) read already-downloaded FIRMS files from disk and do not call the FIRMS API.

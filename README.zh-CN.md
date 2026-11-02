@@ -63,7 +63,7 @@ v2：
 | `src/analyse_r2.py` | 第 2 轮：用官方 ONI 交叉核对，加入印度洋偶极子。读取第 1 轮结果，需在 `analyse.py` 之后运行。 |
 | `src/analyse_r3.py` | 第 3 轮：换成 GPCP 降雨（与 ERA5 相互独立）重新检验。在 `analyse_r2.py` 之后运行，需要 `netCDF4`。 |
 | `src/fetch_firms.py` | 下载 NASA FIRMS MODIS 火点，Aug–Oct 窗口（v1）。密钥从 `FIRMS_MAP_KEY` 读取，不保存在任何文件里。 |
-| `src/fetch_firms_v2.py` | 下载 NASA FIRMS MODIS_SP 火点，每个季节的 1 Jun–31 Jul 和 1 Nov–次年 1 Jan（v2 事件构建需要的边缘月份；Aug–Oct 已从 `data/raw/firms/` 获得）。从 `FIRMS_MAP_KEY` 读密钥。 |
+| `src/fetch_firms_v2.py` | 下载 NASA FIRMS MODIS_SP 火点，每个季节的 6 月 1 日至 7 月 31 日和 11 月 1 日至次年 1 月 31 日（v2 事件构建需要的边缘月份；Aug–Oct 已从 `data/raw/firms/` 获得）。从 `FIRMS_MAP_KEY` 读密钥。 |
 | `src/analyse_r4.py` | 第 4 轮：干旱 → 火点 → 新加坡 PM2.5。在 `analyse_r3.py` 之后运行。 |
 | `src/plot_r4.py` | 绘制 `results/fires_r4.png`。 |
 | `src/confirmatory.py` | 按 `docs/research_plan_v1.md` 做主检验和稳健性检验。在 `analyse_r4.py` 之后运行，需要 `statsmodels`。 |
@@ -110,7 +110,7 @@ v2，在 v1 之后跑（v2 的事件构建复用 v1 的 FIRMS 火点文件）：
    unzip doi_10_5061_dryad_msbcc2g1t__v20220828.zip -d data/external/sloan_dryad
    cd data/external/sloan_dryad
    unzip Dryad_Version_ofGDB.zip
-   cd /workspace
+   cd ../../..
    ```
 
 2. **FIRMS 密钥（从环境变量读取，绝不写入任何文件）。** 在 shell 里设置 `FIRMS_MAP_KEY`。`src/fetch_firms_v2.py` 需要它。v2 分析脚本（`v2_step0.py`、`v2_stage2.py`）从磁盘读已经下载好的 FIRMS 文件，不调用 FIRMS API。
@@ -150,7 +150,7 @@ v2，在 v1 之后跑（v2 的事件构建复用 v1 的 FIRMS 火点文件）：
 | 偶极子模态指数 DMI（HadISST1.1；2026 年 7 月 25 日生成，最近几个月为初步值） | NOAA PSL `psl.noaa.gov/gcos_wgsp/Timeseries/Data/dmi.had.long.data`，由 Toni 手动下载，保存为 `noaa_psl_dmi_had_long.data` | 1870 年 1 月至 2026 年 5 月 | NOAA PSL；HadISST 为英国气象局数据，需署名 |
 | GPCP v2.3 月降水，2.5°（卫星 + 雨量站；2021 年 11 月起为临时版） | NOAA PSL `downloads.psl.noaa.gov/Datasets/gpcp/precip.mon.mean.nc`，由 Toni 手动下载，保存为 `noaa_psl_gpcp_v2.3_precip.mon.mean.nc` | 1979 年 1 月至 2026 年 6 月 | NOAA PSL；引用 Adler et al. 2003（文件内有引文） |
 | MODIS 火点，Aug–Oct 2001–2025 和近实时 2026（v1） | NASA FIRMS 区域 API，范围东经 100 至 116.5 度、南纬 5 度至北纬 2.3 度，2026 年 10 月 16 日用 Toni 的 MAP_KEY 下载，存放在 `data/raw/firms/` | 2001 至 2025 年每年 8 月 1 日至 10 月 31 日；2026 年 8 月 1 日至 10 月 15 日 | NASA 开放数据；引用 FIRMS |
-| MODIS 火点，每个季节 1 Jun–31 Jul 和 1 Nov–次年 1 Jan（v2 事件构建的边缘月份；这些季节的 Aug–Oct 已从 `data/raw/firms/` 获得） | NASA FIRMS 区域 API，范围同上，2026 年 11 月 2 日下载，存放在 `data/raw/firms_v2/` | 2002 至 2025 年各季节的 6 月 1 日至 7 月 31 日，以及 11 月 1 日至次年 1 月 31 日；Aug–Oct 来自 `data/raw/firms/` | NASA 开放数据；引用 FIRMS |
+| MODIS 火点，每个季节 6 月 1 日至 7 月 31 日和 11 月 1 日至次年 1 月 31 日（v2 事件构建的边缘月份；这些季节的 Aug–Oct 已从 `data/raw/firms/` 获得） | NASA FIRMS 区域 API，范围同上，2026 年 11 月 2 日下载，存放在 `data/raw/firms_v2/` | 2002 至 2025 年各季节的 6 月 1 日至 7 月 31 日，以及 11 月 1 日至次年 1 月 31 日；Aug–Oct 来自 `data/raw/firms/` | NASA 开放数据；引用 FIRMS |
 | Sloan 火灾事件检测点及引燃时间，2002–2019 | Dryad doi 10.5061/dryad.msbcc2g1t，版本 2022 年 8 月 28 日，手动下载 | 印度尼西亚的火灾事件检测点和引燃时间，2002 至 2019 年 | 去 Dryad 页面查 |
 | 分区 PSI 和 24 小时 PM2.5，逐小时 | NEA，经 data.gov.sg 实时 API（`/v2/real-time/api/psi?date=`） | 2016 至 2025 年每年 8 月 1 日至 10 月 31 日；2026 年 8 月 1 日至 10 月 15 日 | Singapore Open Data Licence；注明来源，不得暗示官方身份 |
 

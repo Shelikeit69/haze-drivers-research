@@ -55,7 +55,7 @@ def _build_step0_replication(results_dir: str) -> str:
             color="#d62728", label="Sloan Dryad",
         )
         r = r_lookup[island_key]
-        ax.set_title(f"{island_label}  (r = {r:.4g})", fontsize=10.5)
+        ax.set_title(f"{island_label}  (r = {r:.5f})", fontsize=10.5)
         ax.set_xlabel("Year")
         ax.set_ylabel("Severe events per year")
         ax.set_xlim(2002, 2019)
