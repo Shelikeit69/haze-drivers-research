@@ -208,6 +208,7 @@ def factor(r):
 out["factor_less_rain"] = out.apply(factor, axis=1)
 out["factor_unit"] = np.where(out["model"].str.contains("Aug-Oct rain") & ~out["model"].str.contains(r"ln\("),
                               "per 1 mm/day less", np.where(out["model"].str.contains("total rain"), "per 100 mm less", ""))
+out.loc[out["kind"].str.startswith("context"), "factor_unit"] = ""  # step rows have no rain-unit factor
 out.loc[out["kind"].str.startswith("context"), "factor_post2016"] = 10 ** out.loc[out["kind"].str.startswith("context"), "coef"]
 out.to_csv(os.path.join(RES, "v2_q3_results.csv"), index=False)
 pd.set_option("display.width", 250)

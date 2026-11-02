@@ -68,10 +68,9 @@ def load_firms():
             d = pd.read_csv(p)
             if d.empty:
                 continue
-            d["_file"] = os.path.basename(p)
             frames.append(d)
     f = pd.concat(frames, ignore_index=True)
-    keep = ["latitude", "longitude", "acq_date", "frp", "type", "satellite", "_file"]
+    keep = ["latitude", "longitude", "acq_date", "frp", "type", "satellite"]
     f = f[keep].drop_duplicates().reset_index(drop=True)
     f["acq_date"] = pd.to_datetime(f["acq_date"])
     f = f[(f["acq_date"] >= START) & (f["acq_date"] <= END)].reset_index(drop=True)
@@ -228,7 +227,7 @@ def load_dryad():
     return kept, cross
 
 
-def compare(scenario, ours, dryad):
+def compare(scenario, ours, dryad, ours_events, dryad_events):
     rows = []
     for isl in ISLANDS:
         o = ours[(ours["scenario"] == scenario) & (ours["island"] == isl)].sort_values("year")
@@ -236,6 +235,7 @@ def compare(scenario, ours, dryad):
         assert list(o["year"]) == YEARS and list(d["year"]) == YEARS
         co = o.set_index("year")
         cd = d.set_index("year")
+        med_diff = (co["median_severity"] - cd["median_severity"]).abs().max()
         r_ev = stats.pearsonr(co["n_events"], cd["n_events"])[0]
         r_sv = stats.pearsonr(co["n_severe"], cd["n_severe"])[0]
         r_vs = stats.pearsonr(co["n_very_severe"], cd["n_very_severe"])[0]
@@ -249,8 +249,12 @@ def compare(scenario, ours, dryad):
             "r_events": r_ev, "r_severe": r_sv, "r_very_severe": r_vs,
             "events_ours": ev_o, "events_dryad": ev_d, "events_ratio": ev_o / ev_d,
             "severe_ours": sv_o, "severe_dryad": sv_d, "severe_ratio": sv_o / sv_d,
-            "median_severity_ours": float(co["median_severity"].median()),
-            "median_severity_dryad": float(cd["median_severity"].median()),
+            "median_severity_ours": float(ours_events.loc[
+                (ours_events["scenario"] == scenario) & (ours_events["island"] == isl),
+                "severity"].median()),
+            "median_severity_dryad": float(dryad_events.loc[
+                dryad_events["island"] == isl, "severity"].median()),
+            "max_abs_yearly_median_diff": float(med_diff),
             "pass_r": pass_r, "pass_events_totals": bool(pass_ev),
             "pass_severe_totals": bool(pass_sv),
             "pass_island": bool(pass_r and pass_ev and pass_sv),
@@ -297,7 +301,8 @@ def main():
         print(f"{label}: {n_used} detections -> {len(ev)} events")
         ours = summarise(ev, "ours", label)
         yearly.append(ours)
-        comp = compare(label, ours, dryad_yearly)
+        comp = compare(label, ours, dryad_yearly, ev.assign(scenario=label), dryad_events)
+        comp.insert(1, "detections_used", n_used)
         comparisons.append(comp)
         if comp["pass_scenario"].all():
             passed = True
@@ -308,6 +313,8 @@ def main():
     c = pd.concat(comparisons, ignore_index=True)
     c.to_csv(os.path.join(RES, "v2_step0_comparison.csv"), index=False)
     actual = sha256(DRYAD_ZIP) if os.path.exists(DRYAD_ZIP) else "not_downloaded"
+    cross["firms_detections_window"] = int(len(firms))
+    cross["firms_detections_other_dropped"] = int((firms["island"] == "other").sum())
     cross["dryad_zip_sha256"] = actual
     cross["dryad_zip_sha256_matches_plan"] = bool(actual == DRYAD_SHA256)
     x = pd.DataFrame([cross])
