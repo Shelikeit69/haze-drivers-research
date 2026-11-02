@@ -86,7 +86,7 @@ It is separate from my AI4Climate entry `sg-haze-window`, and nothing here feeds
 
 ## Reproduce
 
-v2 uses v1 output files that are already committed to the repo, so you do not need to run v1 first unless you want to rebuild those files from scratch. The pre-submitted v1 files that v2 scripts read from `results/` are: `gpcp_cells_r3.csv`, `fire_counts_r4.csv`, and `yearly_r4.csv`. v2 scripts also read the GPCP netCDF file and both v1 and v2 FIRMS CSVs from `data/raw/`.
+v2 uses v1 output files that are already committed to the repo, so you do not need to run v1 first unless you want to rebuild those files from scratch. The v1 files that v2 scripts read from `results/` are: `gpcp_cells_r3.csv`, `fire_counts_r4.csv`, and `yearly_r4.csv`. v2 scripts also read the GPCP netCDF file and both v1 and v2 FIRMS CSVs from `data/raw/`.
 
 1. **Dryad data (manual download, 202 MB, above GitHub's file limit).** Open `https://datadryad.org/dataset/doi:10.5061/dryad.msbcc2g1t` in a browser and click "Download full dataset". Check the SHA256 of the zip:
 
@@ -119,7 +119,7 @@ v2 uses v1 output files that are already committed to the repo, so you do not ne
 
    `v2_q3.py` does not need the Dryad data. `v2_step0.py` reads Sloan's Dryad CSVs from `data/external/sloan_dryad/Dryad_Version_ofGDB/`. `v2_stage2.py` does not read the Dryad data; it builds events with `v2_step0.build_events` on FIRMS detections already present in `data/raw/firms` and `data/raw/firms_v2`. `v2_figures.py` needs only the `results/` files produced by the earlier scripts.
 
-v1, run only if you want to rebuild v2's inputs from scratch:
+v1 (rebuilds the v1 results, including the three files that v2 reads):
 
 ```
 python src/analyse.py data/raw results

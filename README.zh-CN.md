@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-**季相更干的时候，苏门答腊和加里曼丹的火更多。同样降雨下，2016 年以来的火势整体更低，严重事件占比也更低，而且这个下降持续到了 2025 年。**
+**季节越干，苏门答腊和加里曼丹的火越多。同样降雨下，2016 年以来的火势整体更低，严重事件占比也更低，而且这个下降持续到了 2025 年。**
 
 最新结果（v2，2026 年 11 月 2 日）：[docs/2026-11-02_v2_conclusions.md](docs/2026-11-02_v2_conclusions.md)
 
@@ -63,7 +63,7 @@ v1：
 | 路径 | 内容 |
 |---|---|
 | `data/external/sloan_dryad/` | 手动下载的 Sloan Dryad 事件表（doi 10.5061/dryad.msbcc2g1t）。zip 包 202 MB，超过 GitHub 上限，所以不进 git。`src/v2_step0.py` 固定从 `data/external/sloan_dryad/Dryad_Version_ofGDB/` 读取 CSV。 |
-| `src/fetch_firms_v2.py` | 下载 NASA FIRMS MODIS_SP 火点，每个季节的 1 Jun–31 Jul 和 1 Nov–次年 1 Jan（v2 事件构建需要的边缘月份；Aug–Oct 已从 `data/raw/firms/` 获得）。从 `FIRMS_MAP_KEY` 读密钥。 |
+| `src/fetch_firms_v2.py` | 下载 NASA FIRMS MODIS_SP 火点，每个季节的 6 月 1 日至 7 月 31 日和 11 月 1 日至次年 1 月 31 日（v2 事件构建需要的边缘月份；Aug–Oct 已从 `data/raw/firms/` 获得）。从 `FIRMS_MAP_KEY` 读密钥。 |
 | `src/v2_step0.py` | 用 Sloan 事件定义从 FIRMS 检测点构建事件，并和 Dryad 表核对。固定从 `data/external/sloan_dryad/Dryad_Version_ofGDB/` 读 Sloan 的 CSV。 |
 | `src/v2_q3.py` | 用 Sloan 的两条建议重跑 v1 的雨火关系（FRP 总和 + 累加降雨）。直接用仓库里已有的数据，不需要 Dryad。 |
 | `src/v2_stage2.py` | v2 Step 1 复现、T1–T2 确认性检验、Holm 校正、稳健性检验和探索性分析。通过 `v2_step0.build_events` 在已经下载好的 FIRMS 数据上构建事件；不读 Dryad 数据。 |
@@ -119,7 +119,7 @@ v2 使用仓库里已提交的 v1 输出文件，所以不用先跑 v1，除非�
 
    `v2_q3.py` 不依赖 Dryad 数据。`v2_step0.py` 从 `data/external/sloan_dryad/Dryad_Version_ofGDB/` 读 Sloan 的 CSV。`v2_stage2.py` 不读 Dryad 数据，它用 `v2_step0.build_events` 在 `data/raw/firms` 和 `data/raw/firms_v2` 里已有的 FIRMS 检测点上构建事件。`v2_figures.py` 只需要前面脚本产出的 `results/` 文件。
 
-v1，只有当你想从头重建 v2 用到的那三个 v1 输出文件时才跑：
+v1（重建 v1 的结果，包括 v2 读取的那三个文件）：
 
 ```
 python src/analyse.py data/raw results
@@ -152,7 +152,7 @@ python src/posthoc_checks.py results
 | 数据 | 来源 | 本仓库覆盖范围 | 许可 |
 |---|---|---|---|
 | Sloan 火灾事件检测点及引燃时间，2002–2019 | Dryad doi 10.5061/dryad.msbcc2g1t，版本 2022 年 8 月 28 日，手动下载 | 印度尼西亚的火灾事件检测点和引燃时间，2002 至 2019 年 | 去 Dryad 页面查 |
-| MODIS 火点，每个季节 1 Jun–31 Jul 和 1 Nov–次年 1 Jan（v2 事件构建的边缘月份；这些季节的 Aug–Oct 已从 `data/raw/firms/` 获得） | NASA FIRMS 区域 API，范围同上，2026 年 11 月 2 日下载，存放在 `data/raw/firms_v2/` | 2002 至 2025 年各季节的 6 月 1 日至 7 月 31 日，以及 11 月 1 日至次年 1 月 31 日；Aug–Oct 来自 `data/raw/firms/` | NASA 开放数据；引用 FIRMS |
+| MODIS 火点，每个季节 6 月 1 日至 7 月 31 日和 11 月 1 日至次年 1 月 31 日（v2 事件构建的边缘月份；这些季节的 Aug–Oct 已从 `data/raw/firms/` 获得） | NASA FIRMS 区域 API，范围同上，2026 年 11 月 2 日下载，存放在 `data/raw/firms_v2/` | 2002 至 2025 年各季节的 6 月 1 日至 7 月 31 日，以及 11 月 1 日至次年 1 月 31 日；Aug–Oct 来自 `data/raw/firms/` | NASA 开放数据；引用 FIRMS |
 | 逐日平均海平面气压、逐日降水（ERA5 再分析） | Open-Meteo 历史天气 API | 1950-01-01 至 2026-10-10，8 个点（见下） | CC BY 4.0；非商业用途免费 |
 | ONI（CPC，ERSST v6，3 个月滑动平均；文件注明 "as of 09/7/2026"） | NOAA PSL `psl.noaa.gov/data/correlation/oni.data`，由 Toni 手动下载，保存为 `noaa_psl_oni.data` | 1950 年 1 月至 2026 年 8 月（中心月） | 美国政府数据 |
 | 偶极子模态指数 DMI（HadISST1.1；2026 年 7 月 25 日生成，最近几个月为初步值） | NOAA PSL `psl.noaa.gov/gcos_wgsp/Timeseries/Data/dmi.had.long.data`，由 Toni 手动下载，保存为 `noaa_psl_dmi_had_long.data` | 1870 年 1 月至 2026 年 5 月 | NOAA PSL；HadISST 为英国气象局数据，需署名 |
