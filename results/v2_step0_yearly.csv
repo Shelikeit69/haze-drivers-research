@@ -1,0 +1,73 @@
+scenario,source,island,year,n_events,n_severe,n_very_severe,median_severity
+dryad,dryad,sumatra,2002,8983,2562,1043,25.6000004
+dryad,dryad,sumatra,2003,5726,1473,535,24.0500002
+dryad,dryad,sumatra,2004,8673,2434,959,25.1000004
+dryad,dryad,sumatra,2005,6480,1603,584,23.1000004
+dryad,dryad,sumatra,2006,15904,4689,2058,25.6000004
+dryad,dryad,sumatra,2007,6673,1587,550,21.7999992
+dryad,dryad,sumatra,2008,6021,1682,669,24.7999992
+dryad,dryad,sumatra,2009,8868,2542,996,25.2000008
+dryad,dryad,sumatra,2010,3013,549,164,19.3999996
+dryad,dryad,sumatra,2011,8167,2166,868,23.7000008
+dryad,dryad,sumatra,2012,8485,2350,952,24.1000004
+dryad,dryad,sumatra,2013,4496,1270,542,24.5
+dryad,dryad,sumatra,2014,7050,1813,747,22.2000008
+dryad,dryad,sumatra,2015,11420,3294,1618,23.7999992
+dryad,dryad,sumatra,2016,1891,330,109,17.1000004
+dryad,dryad,sumatra,2017,1526,190,55,16.0
+dryad,dryad,sumatra,2018,2082,344,117,16.6000004
+dryad,dryad,sumatra,2019,5848,1620,831,22.2999992
+dryad,dryad,kalimantan,2002,17609,6281,3259,31.3999996
+dryad,dryad,kalimantan,2003,9604,3187,1256,31.8999996
+dryad,dryad,kalimantan,2004,14519,5159,2502,32.7000008
+dryad,dryad,kalimantan,2005,7551,2158,794,27.3999996
+dryad,dryad,kalimantan,2006,20501,7263,3474,31.7999992
+dryad,dryad,kalimantan,2007,5935,1522,519,24.3999996
+dryad,dryad,kalimantan,2008,4107,1038,289,24.2000008
+dryad,dryad,kalimantan,2009,14985,5139,2426,31.3999996
+dryad,dryad,kalimantan,2010,1930,299,49,20.0
+dryad,dryad,kalimantan,2011,9028,2515,935,25.8999996
+dryad,dryad,kalimantan,2012,9405,2712,1024,27.1000004
+dryad,dryad,kalimantan,2013,6245,1768,647,27.7000008
+dryad,dryad,kalimantan,2014,11925,3700,1633,28.2000008
+dryad,dryad,kalimantan,2015,17468,6073,2974,30.5
+dryad,dryad,kalimantan,2016,2929,630,159,23.6000004
+dryad,dryad,kalimantan,2017,1949,318,77,19.2999992
+dryad,dryad,kalimantan,2018,5021,1333,504,25.5
+dryad,dryad,kalimantan,2019,8575,2743,1298,26.7999992
+"8-neighbour, all detections",ours,sumatra,2002,9062,2448,984,23.6
+"8-neighbour, all detections",ours,sumatra,2003,5769,1480,539,24.1
+"8-neighbour, all detections",ours,sumatra,2004,8834,2434,934,24.7
+"8-neighbour, all detections",ours,sumatra,2005,6543,1610,597,23.1
+"8-neighbour, all detections",ours,sumatra,2006,16110,4728,2087,25.4
+"8-neighbour, all detections",ours,sumatra,2007,6755,1604,560,21.6
+"8-neighbour, all detections",ours,sumatra,2008,6107,1700,666,24.6
+"8-neighbour, all detections",ours,sumatra,2009,9002,2540,1007,25.0
+"8-neighbour, all detections",ours,sumatra,2010,3067,543,169,19.5
+"8-neighbour, all detections",ours,sumatra,2011,8291,2203,864,23.6
+"8-neighbour, all detections",ours,sumatra,2012,8633,2381,970,23.8
+"8-neighbour, all detections",ours,sumatra,2013,4611,1285,549,24.0
+"8-neighbour, all detections",ours,sumatra,2014,7140,1788,755,21.95
+"8-neighbour, all detections",ours,sumatra,2015,11634,3334,1643,23.8
+"8-neighbour, all detections",ours,sumatra,2016,1911,334,110,17.5
+"8-neighbour, all detections",ours,sumatra,2017,1557,193,52,16.0
+"8-neighbour, all detections",ours,sumatra,2018,2085,340,123,16.4
+"8-neighbour, all detections",ours,sumatra,2019,5935,1643,833,21.9
+"8-neighbour, all detections",ours,kalimantan,2002,17913,6319,3240,30.700000000000003
+"8-neighbour, all detections",ours,kalimantan,2003,9734,3222,1255,31.7
+"8-neighbour, all detections",ours,kalimantan,2004,14704,5187,2494,32.0
+"8-neighbour, all detections",ours,kalimantan,2005,7641,2205,812,27.2
+"8-neighbour, all detections",ours,kalimantan,2006,20811,7314,3452,31.3
+"8-neighbour, all detections",ours,kalimantan,2007,6003,1544,544,24.6
+"8-neighbour, all detections",ours,kalimantan,2008,4161,1045,290,24.2
+"8-neighbour, all detections",ours,kalimantan,2009,15200,5202,2452,31.0
+"8-neighbour, all detections",ours,kalimantan,2010,1953,309,54,19.8
+"8-neighbour, all detections",ours,kalimantan,2011,9129,2547,940,26.0
+"8-neighbour, all detections",ours,kalimantan,2012,9534,2736,1026,27.049999999999997
+"8-neighbour, all detections",ours,kalimantan,2013,6341,1782,646,27.6
+"8-neighbour, all detections",ours,kalimantan,2014,12026,3701,1619,27.9
+"8-neighbour, all detections",ours,kalimantan,2015,17706,6085,2928,30.3
+"8-neighbour, all detections",ours,kalimantan,2016,2968,650,167,23.5
+"8-neighbour, all detections",ours,kalimantan,2017,1983,319,79,19.1
+"8-neighbour, all detections",ours,kalimantan,2018,5081,1330,502,25.0
+"8-neighbour, all detections",ours,kalimantan,2019,8743,2767,1309,26.4
